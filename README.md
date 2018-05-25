@@ -1,6 +1,6 @@
 # Typescript Mock Imports
 
-#### Intuitive mocks for Typescript class imports.
+#### Intuitive mocking library for Typescript class imports.
 
 ## About
 

@@ -1,7 +1,7 @@
 {
   "name": "ts-mock-imports",
   "version": "0.1.0",
-  "description": "Intuitive mocks for Typescript class imports",
+  "description": "Intuitive mocking library for Typescript class imports",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "contributors": [
