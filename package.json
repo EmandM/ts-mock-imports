@@ -1,0 +1,38 @@
+{
+  "name": "ts-mock-imports",
+  "version": "0.1.0",
+  "description": "Intuitive mocks for Typescript class imports",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "contributors": [
+    {
+      "name": "Emma McMillan",
+      "email": "loopylemon8@gmail.com"
+    }
+  ],
+  "peerDependencies": {
+    "typescript": "^2.6.1"
+  },
+  "scripts": {
+    "lint": "tslint --project tsconfig.json 'src/**/*{.ts,.tsx}'",
+    "lint-fix": "tslint --project tsconfig.json --fix  'src/**/*{.ts,.tsx}'",
+    "build": "rimraf lib && webpack && webpack --env.compress",
+    "dev": "webpack --progress --colors --watch",
+    "init": "rimraf .git && git init"
+  },
+  "dependencies": {
+    "lodash": "^4.17.10",
+    "sinon": "^5.0.10"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.109",
+    "@types/sinon": "^5.0.0",
+    "awesome-typescript-loader": "^3.3.0",
+    "rimraf": "^2.6.2",
+    "source-map-loader": "^0.2.3",
+    "tslint": "^5.8.0",
+    "tslint-config-airbnb": "^5.3.0",
+    "typescript": "^2.6.1",
+    "webpack": "^3.8.1"
+  }
+}
