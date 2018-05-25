@@ -4,12 +4,27 @@
   "description": "Intuitive mocking library for Typescript class imports",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "contributors": [
-    {
-      "name": "Emma McMillan",
-      "email": "loopylemon8@gmail.com"
-    }
+  "keywords": [
+    "import",
+    "mock",
+    "stub",
+    "require",
+    "typescript",
+    "dependency",
+    "injection",
+    "di",
+    "inject",
+    "swap",
+    "test",
+    "sinon",
+    "node"
   ],
+  "author": "Emma McMillan <emma.lou.mcmillan@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/EmandM/ts-mock-imports/issues"
+  },
+  "homepage": "https://github.com/EmandM/ts-mock-imports",
   "peerDependencies": {
     "typescript": "^2.6.1"
   },
