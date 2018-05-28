@@ -59,7 +59,7 @@ mockManager.restore();
 ```
 
 ## API
-`mockClass(module: <import * as>, importName?: string ): MockManager<T>`
+**`mockClass(module: <import * as>, importName?: string ): MockManager<T>`**
 
 **module:**
 
@@ -110,7 +110,7 @@ const mockManager = ImportMock.mockClass<fooModule.Foo, typeof fooModule>(fooMod
 
 ---
 
-`mockStaticClass(module: <import * as>, importName?: string ): MockStaticManager<T>`
+**`mockStaticClass(module: <import * as>, importName?: string ): MockStaticManager<T>`**
 
 Takes the same arguments as `mockClass` but only replaces static functions on the original class.
 
@@ -124,7 +124,7 @@ const mockManager = ImportMock.mockStaticClass(fooModule, 'Foo');
 
 ---
 
-`MockManager<T>.mock(functionName: string, returns?: any): SinonStub`
+**`MockManager<T>.mock(functionName: string, returns?: any): SinonStub`**
 
 This function returns a sinon stub object.
 
@@ -165,7 +165,7 @@ const sinonStub = mockManager.mock('bar', returnVal);
 
 ---
 
-`MockManager<T>.getMockInstance(): T`
+**`MockManager<T>.getMockInstance(): T`**
 
 Returns an instance of the mocked class.
 ```javascript
@@ -179,7 +179,7 @@ mockFoo.bar() // returns 'Bar'
 ```
 ---
 
-`MockManager<T>.restore()`
+**`MockManager<T>.restore()`**
 
 Restores the import back to the original class.
 
