@@ -1,7 +1,7 @@
 {
   "name": "ts-mock-imports",
-  "version": "0.1.0",
-  "description": "Intuitive mocking library for Typescript class imports",
+  "version": "0.1.1",
+  "description": "Intuitive mocking for Typescript class imports",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "keywords": [
@@ -12,9 +12,7 @@
     "dependency",
     "injection",
     "di",
-    "inject",
     "require",
-    "swap",
     "test",
     "sinon",
     "node"

@@ -1,6 +1,6 @@
 # Typescript Mock Imports
 
-#### Intuitive mocking library for Typescript class imports.
+#### Intuitive mocking for Typescript class imports.
 
 [![Build Status](https://travis-ci.org/EmandM/ts-mock-imports.svg)](https://travis-ci.org/EmandM/ts-mock-imports)
 
