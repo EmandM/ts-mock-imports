@@ -108,6 +108,7 @@ const mockManager = ImportMock.mockClass<fooModule.Foo, typeof fooModule>(fooMod
 const mockManager = ImportMock.mockClass<fooModule.Foo, typeof fooModule>(fooModule, 'Bar');
 ```
 
+---
 
 `mockStaticClass(module: <import * as>, importName?: string ): MockStaticManager<T>`
 
@@ -121,6 +122,8 @@ import * as fooModule from '../foo';
 const mockManager = ImportMock.mockStaticClass(fooModule, 'Foo');
 ```
 
+---
+
 `MockManager<T>.mock(functionName: string, returns?: any): SinonStub`
 
 This function returns a sinon stub object.
@@ -129,7 +132,7 @@ This function returns a sinon stub object.
 
 The name of the function you would like to mock.
 
-If using MockManager, Typescript expects the functionName to match the functions on the original class.
+If using MockManager, Typescript expects the functionName to match functions availablel on the original class.
 
 MockStaticManager allows any string.
 
@@ -160,6 +163,7 @@ const sinonStub = mockManager.mock('bar', returnVal);
 // new Foo().bar() now returns 'Bar'
 ```
 
+---
 
 `MockManager<T>.getMockInstance(): T`
 
@@ -173,6 +177,7 @@ const sinonStub = mockManager.mock('bar', 'Bar');
 const mockFoo = mockManager.getMockInstance();
 mockFoo.bar() // returns 'Bar'
 ```
+---
 
 `MockManager<T>.restore()`
 
