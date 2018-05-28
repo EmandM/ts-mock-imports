@@ -33,7 +33,7 @@
     "lint": "tslint --project tsconfig.json 'src/**/*{.ts,.tsx}'",
     "lint-fix": "tslint --project tsconfig.json --fix  'src/**/*{.ts,.tsx}'",
     "unit-test": "mocha -r ts-node/register test/**/*.spec.ts",
-    "test": "npm run dtslint && npm run test",
+    "test": "npm run dtslint && npm run unit-test",
     "build": "rimraf lib && webpack && webpack --env.compress",
     "dev": "webpack --progress --colors --watch",
     "init": "rimraf .git && git init"
