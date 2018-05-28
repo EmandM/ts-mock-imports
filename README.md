@@ -65,13 +65,19 @@ mockManager.restore();
 
 The module containing the class you would like to mock.
 
-The path used to import the module into this file needs to have the same end location as the path used to import the module into the place you would like to mock.
-
-i.e.: Cannot use `'src/index'` to import into the `.spec.ts` file and then use `'src/foo'` to import into `bar.ts`. Both files need to use either `'src/foo'` or `'src/index'`.
+Both the source file and test file need to use the same path to import the mocked module. I.e. Cannot use `'src/index'` to import into the `.spec.ts` file and then use `'src/foo'` to import into `bar.ts`. Both files need to use either `'src/foo'` or `'src/index'`.
 
 **importName:**
 
 What the class is exported as. If exported using `export default` then this parameter is not needed.
+
+Using importName:
+```javascript
+// export class Foo
+import * as fooModule from '../src/foo';
+
+const mockManager = ImportMock.mockClass(fooModule, 'Foo');
+```
 
 Default imports:
 ```javascript
@@ -96,10 +102,10 @@ Explicit typing with full type assurance
 ```javascript
 import * as fooModule from '../foo';
 
-const mockManager = ImportMock.mockClass<fooModule.Foo, typeof Foo>(fooModule, 'Foo');
+const mockManager = ImportMock.mockClass<fooModule.Foo, typeof fooModule>(fooModule, 'Foo');
 
 // Will result in a TS Error as Bar is not exported by Foo
-const mockManager = ImportMock.mockClass<fooModule.Foo, typeof Foo>(fooModule, 'Bar');
+const mockManager = ImportMock.mockClass<fooModule.Foo, typeof fooModule>(fooModule, 'Bar');
 ```
 
 
