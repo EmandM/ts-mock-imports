@@ -4,6 +4,10 @@
 
 [![Build Status](https://travis-ci.org/EmandM/ts-mock-imports.svg)](https://travis-ci.org/EmandM/ts-mock-imports)
 
+## Installation
+
+`npm install ts-mock-imports --save-dev`
+
 ## About
 
 ts-mock-imports is useful if you want to replace classes that are exported from local files with stub versions of those classes. This allows ES6 code to be easily unit-tested without the need for a dependency injection library.
@@ -13,10 +17,6 @@ ts-mock-imports is built on top of sinon.
 The mocked class takes all of the original class functions, and replaces them with noop functions (functions returning `undefined`).
 
 This library needs to be run on TypeScript 2.6.1 or later.
-
-## Installation
-
-`npm install ts-mock-imports`
 
 ## Usage
 
