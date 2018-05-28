@@ -32,8 +32,8 @@
     "dtslint": "dtslint test/types",
     "lint": "tslint --project tsconfig.json 'src/**/*{.ts,.tsx}'",
     "lint-fix": "tslint --project tsconfig.json --fix  'src/**/*{.ts,.tsx}'",
-    "test": "mocha -r ts-node/register test/**/*.spec.ts",
-    "test-all": "npm run dtslint && npm run test",
+    "unit-test": "mocha -r ts-node/register test/**/*.spec.ts",
+    "test": "npm run dtslint && npm run test",
     "build": "rimraf lib && webpack && webpack --env.compress",
     "dev": "webpack --progress --colors --watch",
     "init": "rimraf .git && git init"
