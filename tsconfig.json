@@ -6,10 +6,18 @@
     "lib": ["es2017", "dom"],
     "target": "es5",
     "jsx": "react",
-    "typeRoots": ["node_modules/@types/", "src/types"],
+    "types" : ["lodash"],
     "declaration": true,
     "noImplicitAny": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-  }
+    "removeComments": true
+  },
+  "include": [
+      "src/**/*"
+  ],
+  "exclude": [
+      "node_modules",
+      "**/*.spec.ts"
+  ]
 }

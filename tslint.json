@@ -1,7 +1,7 @@
 {
     "defaultSeverity": "error",
     "extends": [
-        "tslint:recommended", "tslint-config-airbnb"
+        "tslint:recommended", "tslint-config-airbnb", "tslint-no-unused-expression-chai"
     ],
     "jsRules": {},
     "rules": {

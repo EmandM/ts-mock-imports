@@ -74,9 +74,30 @@ What the class is exported as. If exported using `export default` then this para
 Default imports:
 ```javascript
 // export default Foo
-import * as Foo from '../foo';
+import * as foo from '../foo';
 
-const mockManager = ImportMock.mockClass(Foo);
+const mockManager = ImportMock.mockClass(foo);
+```
+
+Import mock will infer the type of `Foo` if it is the only item exported out of it's file. If more things are exported, you will need to  explicitly provide types to Import mock.
+
+Explicit typing:
+```javascript
+import * as fooModule from '../foo';
+
+const mockManager = ImportMock.mockClass<fooModule.Foo>(fooModule, 'Foo');
+```
+
+If you wish to ensure that `Foo` is the correct name for the mocked class, give import mock the type of your module.
+
+Explicit typing with full type assurance
+```javascript
+import * as fooModule from '../foo';
+
+const mockManager = ImportMock.mockClass<fooModule.Foo, typeof Foo>(fooModule, 'Foo');
+
+// Will result in a TS Error as Bar is not exported by Foo
+const mockManager = ImportMock.mockClass<fooModule.Foo, typeof Foo>(fooModule, 'Bar');
 ```
 
 

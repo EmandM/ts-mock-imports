@@ -8,7 +8,7 @@ export class StaticMockManager<T> extends MockManager<T> {
   }
 
   protected replaceFunction(funcName: string, newFunc: () => any) {
-    this.stubClass[funcName] = newFunc;
+    (this.stubClass as any)[funcName] = newFunc;
   }
 
   protected getAllFunctionNames(obj: any): string[] {

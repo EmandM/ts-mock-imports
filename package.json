@@ -8,12 +8,12 @@
     "import",
     "mock",
     "stub",
-    "require",
     "typescript",
     "dependency",
     "injection",
     "di",
     "inject",
+    "require",
     "swap",
     "test",
     "sinon",
@@ -29,8 +29,11 @@
     "typescript": "^2.6.1"
   },
   "scripts": {
+    "dtslint": "dtslint test/types",
     "lint": "tslint --project tsconfig.json 'src/**/*{.ts,.tsx}'",
     "lint-fix": "tslint --project tsconfig.json --fix  'src/**/*{.ts,.tsx}'",
+    "test": "mocha -r ts-node/register test/**/*.spec.ts",
+    "test-all": "npm run dtslint && npm run test",
     "build": "rimraf lib && webpack && webpack --env.compress",
     "dev": "webpack --progress --colors --watch",
     "init": "rimraf .git && git init"
@@ -40,14 +43,21 @@
     "sinon": "^5.0.10"
   },
   "devDependencies": {
+    "@types/chai": "^4.1.3",
     "@types/lodash": "^4.14.109",
+    "@types/mocha": "^5.2.0",
     "@types/sinon": "^5.0.0",
     "awesome-typescript-loader": "^3.3.0",
+    "chai": "^4.1.2",
+    "dtslint": "^0.3.0",
+    "mocha": "^5.2.0",
     "rimraf": "^2.6.2",
     "source-map-loader": "^0.2.3",
+    "ts-node": "^6.0.5",
     "tslint": "^5.8.0",
     "tslint-config-airbnb": "^5.3.0",
-    "typescript": "^2.6.1",
+    "tslint-no-unused-expression-chai": "^0.1.3",
+    "typescript": "^2.8.3",
     "webpack": "^3.8.1"
   }
 }
