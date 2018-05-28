@@ -2,6 +2,8 @@
 
 #### Intuitive mocking library for Typescript class imports.
 
+[![Build Status](https://travis-ci.org/EmandM/ts-mock-imports.svg)](https://travis-ci.org/EmandM/ts-mock-imports)
+
 ## About
 
 ts-mock-imports is useful if you want to replace classes that are exported from local files with stub versions of those classes. This allows ES6 code to be easily unit-tested without the need for a dependency injection library.
@@ -171,3 +173,23 @@ mockFoo.bar() // returns 'Bar'
 Restores the import back to the original class.
 
 It is important that this is called so future imports work as expected.
+
+
+
+## Test
+
+```
+npm run test
+```
+
+### Test Types
+
+```
+npm run dtslint
+```
+
+### Unit Tests
+
+```
+npm run unit-test
+```
