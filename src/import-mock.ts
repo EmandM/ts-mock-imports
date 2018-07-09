@@ -1,5 +1,6 @@
 import * as sinonModule from 'sinon';
 import { MockManager, StaticMockManager } from './managers';
+import { OtherManager } from './managers/other-manager';
 import { IConstruct } from './types';
 const sinon = sinonModule as sinonModule.SinonStatic;
 
@@ -16,5 +17,9 @@ export default class ImportMock {
 
   public static mockFunction<K extends IModule>(module: { [importName: string]: () => any } | K, importName: keyof K = 'default', returns?: any): sinon.SinonStub {
     return sinon.stub(module, importName as string).returns(returns);
+  }
+
+  public static mockOther<T extends IModule, K extends keyof T>(module: { [importName: string]: T[K] } | T, importName?: K, replaceWith?: T[K]) {
+    return new OtherManager<T[K]>(module, importName as string || 'default', replaceWith);
   }
 }
