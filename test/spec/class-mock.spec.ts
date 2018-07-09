@@ -8,7 +8,7 @@ import * as testClass from '../resources/classes/test-class';
 import * as defaultClass from '../resources/classes/test-default-export';
 import { DefaultClassConsumer, StaticTestClassConsumer, TestClassConsumer } from '../resources/consumers';
 
-describe('Import Mock', () => {
+describe('Class Mock', () => {
   describe('Mock Class', () => {
     it('should replace the original export with mock class', () => {
       const manager = importMock.mockClass(testClass, 'TestClass');
@@ -56,6 +56,13 @@ describe('Import Mock', () => {
       expect(consumer.foo()).to.equal(newReturnVal);
     });
 
+    it('should contain given value when setting a variable', () => {
+      const consumer = new TestClassConsumer();
+      const newVal = 2;
+      manager.set('count', newVal);
+      expect(consumer.getCount()).to.equal(newVal);
+    });
+
     it('should return a instance of the mocked class when asked', () => {
       const newReturnVal = 'baz';
       manager.mock('foo', newReturnVal);
@@ -67,6 +74,7 @@ describe('Import Mock', () => {
       manager.restore();
       const consumer = new TestClassConsumer();
       expect(consumer.foo()).to.equal('bar');
+      expect(consumer.getCount()).to.equal(1);
     });
   });
 });
