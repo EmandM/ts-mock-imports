@@ -9,4 +9,8 @@ export class TestClassConsumer {
   public foo() {
     return this.testClass.foo();
   }
+
+  public getCount() {
+    return this.testClass.count;
+  }
 }
