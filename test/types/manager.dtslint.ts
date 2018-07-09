@@ -23,3 +23,19 @@ staticManager.mock('foo');
 // Static functions on a class cannot be inferred
 // $ExpectType SinonStub
 staticManager.mock('bar');
+
+// $ExpectType void
+manager.set('count', 1);
+
+// $ExpectError
+manager.set('bar', 1);
+
+// $ExpectError
+manager.set('count', 'one');
+
+// $ExpectType void
+staticManager.set('count', 1);
+
+// Static variables on a class cannot be inferred
+// $ExpectType void
+staticManager.set('bar', 1);

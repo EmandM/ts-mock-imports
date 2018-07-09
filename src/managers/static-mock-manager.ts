@@ -7,8 +7,12 @@ export class StaticMockManager<T> extends MockManager<T> {
     return super.mock(funcName as keyof T, ...args);
   }
 
-  protected replaceFunction(funcName: string, newFunc: () => any) {
-    (this.stubClass as any)[funcName] = newFunc;
+  public set(varName: keyof IConstruct<T>, ...args: any[]): void {
+    return super.set(varName as keyof T, ...args);
+  }
+
+  protected replace(name: string, arg: any) {
+    (this.stubClass as any)[name] = arg;
   }
 
   protected getAllFunctionNames(obj: any): string[] {

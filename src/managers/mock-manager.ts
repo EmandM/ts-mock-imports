@@ -19,8 +19,12 @@ export class MockManager<T> {
   public mock(funcName: keyof T, returns?: any): sinon.SinonStub {
     const spy = sinon.stub();
     spy.returns(returns);
-    this.replaceFunction(funcName, spy);
+    this.replaceFunction(funcName as string, spy);
     return spy;
+  }
+
+  public set<K extends keyof T>(varName: K, replaceWith?: T[K]): void {
+    this.replace(varName as string, replaceWith);
   }
 
   public restore() {
@@ -32,7 +36,11 @@ export class MockManager<T> {
   }
 
   protected replaceFunction(funcName: string, newFunc: () => any) {
-    this.stubClass.prototype[funcName] = newFunc;
+    this.replace(funcName, newFunc);
+  }
+
+  protected replace(name: string, arg: any) {
+    this.stubClass.prototype[name] = arg;
   }
 
   protected getAllFunctionNames(obj: any) {
@@ -59,8 +67,8 @@ export class MockManager<T> {
     } as any as IConstruct<T>;
 
     const functions = this.getAllFunctionNames(this.original);
-    forEach(functions, (funcName: keyof T) => {
-      this.mock(funcName);
+    forEach(functions, (funcName) => {
+      this.mock(funcName as keyof T);
     });
   }
 }
