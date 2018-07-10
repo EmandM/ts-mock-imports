@@ -124,6 +124,40 @@ const mockManager = ImportMock.mockStaticClass(fooModule, 'Foo');
 
 ---
 
+**`mockFunction(module: <import * as>, importName?: string, returns?: any): SinonStub`**
+
+Returns a SinonStub that is set up to return the optional argument.
+
+Call restore on the stub object to restore the original export.
+
+Function exports:
+```javascript
+import * as fooModule from '../foo';
+
+const stub = ImportMock.mockFunction(fooModule, 'fooFunction', 'bar');
+// fooFunction will now return bar
+
+stub.restore()
+```
+
+---
+
+**`mockOther(module: <import * as>, importName?: string, replaceWith: any): OtherManager<T>`**
+
+`mockOther()` uses the replaceWith argument to entirely replace the original exported item.
+
+Useful for mocking out or removing variables and enums.
+
+Variable mocking:
+```javascript
+import * as fooModule from '../foo';
+
+const mockManager = ImportMock.mockOther(fooModule, 'fooName', 'fakeName');
+// import { fooName } from './foo' now returns 'fakeName'
+```
+
+---
+
 **`MockManager<T>.mock(functionName: string, returns?: any): SinonStub`**
 
 This function returns a sinon stub object.
@@ -132,7 +166,7 @@ This function returns a sinon stub object.
 
 The name of the function you would like to mock.
 
-If using MockManager, Typescript expects the functionName to match functions availablel on the original class.
+If using MockManager, Typescript expects the functionName to match functions available on the original class.
 
 MockStaticManager allows any string.
 
@@ -165,6 +199,36 @@ const sinonStub = mockManager.mock('bar', returnVal);
 
 ---
 
+**`MockManager<T>.set(varName: string, replaceWith?: any): void`**
+
+Replaces a property with a given value.
+
+**varName**
+
+The name of the property you would like to mock.
+
+If using MockManager, Typescript expects the varName to match properties available on the original class.
+
+MockStaticManager allows any string.
+
+**replaceWith:**
+
+The mock value of the property.
+
+
+Mocking variable with a return object:
+```javascript
+import * as fooModule from '../foo';
+
+const mockManager = ImportMock.mockClass(fooModule, 'Foo');
+
+const newVal = 5;
+mockManager.set('count', newVal);
+// new Foo().count now returns 5
+```
+
+---
+
 **`MockManager<T>.getMockInstance(): T`**
 
 Returns an instance of the mocked class.
@@ -180,6 +244,52 @@ mockFoo.bar() // returns 'Bar'
 ---
 
 **`MockManager<T>.restore()`**
+
+Restores the import back to the original class.
+
+It is important that this is called so future imports work as expected.
+
+
+---
+
+**`OtherManager<T>.set(replaceWith?: T): void`**
+
+Replaces an exported property with a given value.
+
+This value must match the type of the original export.
+
+**replaceWith:**
+
+The mock value of the export.
+
+
+Mocking variable with a return object:
+```javascript
+import * as fooModule from '../foo';
+
+const mockManager = ImportMock.mockOther(fooModule, 'FooName', 'fakeName');
+// import { FooName } from './foo' imports 'fakeName'
+
+const newVal = 'newName';
+mockManager.set(newVal);
+// import { FooName } from './foo' now imports 'newName'
+```
+
+---
+
+**`OtherManager<T>.getValue(): T`**
+
+Returns the current mockValue
+```javascript
+import * as fooModule from '../foo';
+
+const mockManager = ImportMock.mockOther(fooModule, 'FooName', 'fakeName');
+
+mockManager.getValue(); // returns 'fakeName'
+```
+---
+
+**`OtherManager<T>.restore()`**
 
 Restores the import back to the original class.
 
