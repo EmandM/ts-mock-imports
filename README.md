@@ -59,6 +59,9 @@ mockManager.restore();
 ```
 
 ## API
+
+### ImportMock
+
 **`mockClass(module: <import * as>, importName?: string ): MockManager<T>`**
 
 **module:**
@@ -158,6 +161,8 @@ const mockManager = ImportMock.mockOther(fooModule, 'fooName', 'fakeName');
 
 ---
 
+### MockManager (and MockStaticManager)
+
 **`MockManager<T>.mock(functionName: string, returns?: any): SinonStub`**
 
 This function returns a sinon stub object.
@@ -249,8 +254,9 @@ Restores the import back to the original class.
 
 It is important that this is called so future imports work as expected.
 
-
 ---
+
+### OtherManager
 
 **`OtherManager<T>.set(replaceWith?: T): void`**
 
