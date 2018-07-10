@@ -1,9 +1,13 @@
 {
   "name": "ts-mock-imports",
-  "version": "0.1.3",
+  "version": "1.0.1",
   "description": "Intuitive mocking for Typescript class imports",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/EmandM/ts-mock-imports.git"
+  },
   "keywords": [
     "import",
     "mock",
