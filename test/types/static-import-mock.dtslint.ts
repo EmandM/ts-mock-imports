@@ -1,7 +1,7 @@
 import * as staticTestClass from '../resources/classes/static-test-class';
 import * as test from '../resources/classes/multiple-exports';
 import * as TestClass from '../resources/classes/test-default-export';
-import ImportMock from '../../src/import-mock';
+import { ImportMock } from '../../src/import-mock';
 
 // $ExpectType StaticMockManager<StaticTestClass>
 ImportMock.mockStaticClass(staticTestClass, 'StaticTestClass');

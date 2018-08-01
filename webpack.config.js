@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 
 let libraryName = 'ts-mock-imports';
-let libraryTarget = 'umd';
+let libraryTarget = 'commonjs';
 let outputFile = 'index';
 let sourceMaps = true;
 let entry = "index.ts";

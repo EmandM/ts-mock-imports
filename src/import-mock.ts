@@ -1,10 +1,9 @@
 import * as sinonModule from 'sinon';
-import { MockManager, StaticMockManager } from './managers';
-import { OtherManager } from './managers/other-manager';
+import { MockManager, StaticMockManager, OtherManager } from './managers';
 import { IConstruct } from './types';
 const sinon = sinonModule as sinonModule.SinonStatic;
 
-export default class ImportMock {
+export class ImportMock {
   public static mockClass<T, K extends IModule = any>(
     module: { [importName: string]: IConstruct<T> } | K, importName: keyof K = 'default'): MockManager<T> {
     return new MockManager<T>(module, importName as string);

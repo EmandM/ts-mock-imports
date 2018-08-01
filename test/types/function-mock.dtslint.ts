@@ -1,12 +1,12 @@
 import * as funcModule from '../resources/functions/test-function';
 import * as defaultFuncModule from '../resources/functions/default-test-function';
-import MockImport from '../../src/import-mock';
+import { ImportMock } from '../../src/import-mock';
 
 // $ExpectType SinonStub
-MockImport.mockFunction(funcModule, 'testFunction');
+ImportMock.mockFunction(funcModule, 'testFunction');
 
 // $ExpectType SinonStub
-MockImport.mockFunction(defaultFuncModule);
+ImportMock.mockFunction(defaultFuncModule);
 
 // $ExpectError
-MockImport.mockFunction(funcModule, 'otherFunction');
+ImportMock.mockFunction(funcModule, 'otherFunction');

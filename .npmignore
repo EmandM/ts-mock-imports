@@ -3,3 +3,4 @@ test
 tsconfig.json
 tslint.json
 webpack.config.js
+*.tgz

@@ -2,7 +2,7 @@ import 'mocha';
 import { OtherManager } from './../../src/managers/other-manager';
 
 import { expect } from 'chai';
-import importMock from '../../src/import-mock';
+import { ImportMock } from '../../src/import-mock';
 import * as otherModule from '../resources/other/test';
 import { OtherConsumer } from './../resources/consumers/other-consumer';
 
@@ -12,7 +12,7 @@ describe('Other Mock', () => {
 
   beforeEach(() => {
     newVal = 'bar';
-    manager = importMock.mockOther(otherModule, 'testConst', newVal);
+    manager = ImportMock.mockOther(otherModule, 'testConst', newVal);
   });
 
   afterEach(() => {

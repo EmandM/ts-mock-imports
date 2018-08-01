@@ -1,7 +1,7 @@
 import 'mocha';
 
 import { expect } from 'chai';
-import importMock from '../../src/import-mock';
+import { ImportMock } from '../../src/import-mock';
 import { MockManager } from '../../src/managers';
 import * as staticTestClass from '../resources/classes/static-test-class';
 import * as testClass from '../resources/classes/test-class';
@@ -11,7 +11,7 @@ import { DefaultClassConsumer, StaticTestClassConsumer, TestClassConsumer } from
 describe('Class Mock', () => {
   describe('Mock Class', () => {
     it('should replace the original export with mock class', () => {
-      const manager = importMock.mockClass(testClass, 'TestClass');
+      const manager = ImportMock.mockClass(testClass, 'TestClass');
       const consumer = new TestClassConsumer();
       expect(consumer.foo).not.to.be.undefined;
       expect(consumer.foo()).to.be.undefined;
@@ -19,7 +19,7 @@ describe('Class Mock', () => {
     });
 
     it('should replace default export with mock class', () => {
-      const manager = importMock.mockClass(defaultClass);
+      const manager = ImportMock.mockClass(defaultClass);
       const consumer = new DefaultClassConsumer();
       expect(consumer.foo).not.to.be.undefined;
       expect(consumer.foo()).to.be.undefined;
@@ -30,7 +30,7 @@ describe('Class Mock', () => {
 
   describe('Mock Static Class', () => {
     it('should replicate all static functions', () => {
-      const manager = importMock.mockStaticClass(staticTestClass, 'StaticTestClass');
+      const manager = ImportMock.mockStaticClass(staticTestClass, 'StaticTestClass');
       const consumer = new StaticTestClassConsumer();
       expect(consumer.foo).not.to.be.undefined;
       expect(consumer.foo()).to.be.undefined;
@@ -42,7 +42,7 @@ describe('Class Mock', () => {
     let manager: MockManager<testClass.TestClass>;
 
     beforeEach(() => {
-      manager = importMock.mockClass(testClass, 'TestClass');
+      manager = ImportMock.mockClass(testClass, 'TestClass');
     });
 
     afterEach(() => {

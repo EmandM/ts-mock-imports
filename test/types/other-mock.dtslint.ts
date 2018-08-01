@@ -1,14 +1,14 @@
 import * as otherModule from '../resources/other/test';
-import MockImport from '../../src/import-mock';
+import { ImportMock } from '../../src/import-mock';
 
 // $ExpectType OtherManager<string>
-MockImport.mockOther(otherModule, 'testConst', 'bar');
+ImportMock.mockOther(otherModule, 'testConst', 'bar');
 
 // $ExpectType OtherManager<string>
-MockImport.mockOther(otherModule);
+ImportMock.mockOther(otherModule);
 
 // $ExpectError
-MockImport.mockOther(otherModule, 'otherValue');
+ImportMock.mockOther(otherModule, 'otherValue');
 
 // $ExpectError
-MockImport.mockOther(otherModule, 'testConst', 100);
+ImportMock.mockOther(otherModule, 'testConst', 100);
