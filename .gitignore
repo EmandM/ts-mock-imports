@@ -3,3 +3,4 @@ lib
 coverage
 *.DS_Store
 .vscode
+*.tgz
