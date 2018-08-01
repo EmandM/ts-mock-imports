@@ -42,7 +42,7 @@ export class Bar {
 
 `test/bar.spec.ts`
 ```javascript
-import ImportMock from 'ts-mock-imports';
+import { ImportMock } from 'ts-mock-imports';
 import { Bar } from './Bar';
 import * as fooModule from '../src/foo';
 
