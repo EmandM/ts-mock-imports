@@ -1,3 +1,3 @@
-declare interface IModule {
+export interface IModule {
   [importName: string]: any;
 }

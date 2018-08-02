@@ -1,3 +1,2 @@
-export interface IConstruct<T> {
-  new(...args: any[]): T;
-}
+export * from './construct';
+export * from './module';

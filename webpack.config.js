@@ -4,9 +4,10 @@ const path = require('path');
 let libraryName = 'ts-mock-imports';
 let libraryTarget = 'commonjs';
 let outputFile = 'index';
-let sourceMaps = true;
 let entry = "index.ts";
 let outdir = "lib";
+
+const isCompress = process.env.compress;
 
 module.exports = function(env) {
   if (!env) {
@@ -14,29 +15,21 @@ module.exports = function(env) {
   }
 
   let plugins = [];
+  let mode = 'development';
   // handle minification
-  if (env && env.compress) {
+  if (isCompress) {
     plugins.push(
       new webpack.LoaderOptionsPlugin({
         minimize: true,
         debug: false
       })
     );
-
-    plugins.push(
-      new webpack.optimize.UglifyJsPlugin({
-        compress: {
-          warnings: true,
-          keep_fnames: true
-        },
-        mangle: {
-          keep_fnames: true
-        }
-      })
-    );
+    mode = 'production'
     outputFile += '.min';
     sourceMaps = false;
   }
+  plugins.push(new DtsBundlePlugin());
+
   
   // handle custom target
   if (env && env.target) {
@@ -49,7 +42,7 @@ module.exports = function(env) {
     entry: [
       path.join(__dirname, 'src', entry)
     ],
-    devtool: sourceMaps ? 'source-map' : false,
+    devtool: isCompress ? 'source-map' : false,
     output: {
       path: path.join(__dirname, outdir),
       publicPath: "/" + outdir + "/",
@@ -60,13 +53,32 @@ module.exports = function(env) {
     },
 
     module: {
-      loaders: [
-        {test: /\.tsx?$/, loader: "awesome-typescript-loader"}
+      rules: [
+        {test: /\.tsx?$/, loader: "ts-loader"}
       ]
     },
+    optimization: {
+      sideEffects: false,
+    },
+    mode,
     resolve: {
       extensions: ['.js', '.ts']
     },
     plugins: plugins
   };
+};
+
+function DtsBundlePlugin(){}
+DtsBundlePlugin.prototype.apply = function (compiler) {
+  compiler.plugin('done', function(){
+    var dts = require('dts-bundle');
+
+    dts.bundle({
+      name: libraryName,
+      main: outdir + '/**/*.d.ts',
+      out: 'index.d.ts',
+      removeSource: true,
+      outputAsModuleFolder: true // to use npm in-package typings
+    });
+  });
 };

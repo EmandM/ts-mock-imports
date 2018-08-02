@@ -1,6 +1,6 @@
 import * as sinonModule from 'sinon';
-import { MockManager, OtherManager, StaticMockManager } from './managers';
-import { IConstruct } from './types';
+import { MockManager, OtherManager, StaticMockManager } from './managers/index';
+import { IConstruct, IModule } from './types';
 const sinon = sinonModule as sinonModule.SinonStatic;
 
 export class ImportMock {

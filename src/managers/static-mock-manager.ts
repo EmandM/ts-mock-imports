@@ -1,13 +1,13 @@
-import { uniq } from 'lodash';
+import { uniq } from 'lodash-es';
 import { SinonStub } from 'sinon';
-import { MockManager } from '.';
+import { ClassManager } from './class-manager';
 
-export class StaticMockManager<T> extends MockManager<T> {
-  public mock(funcName: keyof IConstruct<T>, ...args: any[]): SinonStub {
+export class StaticMockManager<T> extends ClassManager {
+  public mock(funcName: string, ...args: any[]): SinonStub {
     return super.mock(funcName as keyof T, ...args);
   }
 
-  public set(varName: keyof IConstruct<T>, ...args: any[]): void {
+  public set(varName: string, ...args: any[]): void {
     return super.set(varName as keyof T, ...args);
   }
 

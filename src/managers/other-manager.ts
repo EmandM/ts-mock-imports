@@ -1,3 +1,5 @@
+import { IModule } from '../types';
+
 export class OtherManager<T> {
   private original: T;
   private replaceWith: T;
