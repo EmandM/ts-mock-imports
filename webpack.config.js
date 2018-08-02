@@ -58,7 +58,7 @@ module.exports = function(env) {
       ]
     },
     optimization: {
-      sideEffects: false,
+      sideEffects: true,
     },
     mode,
     resolve: {
