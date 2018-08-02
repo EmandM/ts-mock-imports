@@ -13,7 +13,6 @@
     "noImplicitThis": true,
     "alwaysStrict": true,
     "baseUrl": ".",
-    "keyofStringsOnly": true,
     "paths": { "ts-mock-imports": ["../../src"] }
   }
 }

@@ -1,5 +1,5 @@
 import * as sinonModule from 'sinon';
-import { IConstruct, IModule } from '../types';
+import { IConstruct, IModule, StringKeyOf } from '../types';
 import { Manager } from './manager';
 const sinon = sinonModule as sinonModule.SinonStatic;
 
@@ -9,27 +9,31 @@ export interface IMockOptions {
 
 export class MockManager<T> extends Manager {
   protected original!: IConstruct<T>;
-  protected stubClass: IConstruct<T>;
+  protected stubClass!: IConstruct<T>;
 
   constructor(protected module: IModule, protected importName: string) {
     super(module, importName);
-    this.stubClass = this.createStubClass();
+    this.createStubClass();
     this.module[this.importName] = this.stubClass;
   }
 
-  public mock(funcName: keyof T, returns?: any): sinon.SinonStub {
-    const spy = sinon.stub();
-    spy.returns(returns);
-    this.replaceFunction(funcName as string, spy);
-    return spy;
+  public mock(funcName: StringKeyOf<T>, returns?: any): sinon.SinonStub {
+    return this.mockFunction(funcName, returns);
   }
 
-  public set<K extends keyof T>(varName: K, replaceWith?: T[K]): void {
+  public set<K extends keyof T & string>(varName: K, replaceWith?: T[K]): void {
     this.replace(varName as string, replaceWith);
   }
 
   public getMockInstance(): T {
     return new this.stubClass();
+  }
+
+  protected mockFunction(funcName: string, returns?: any): sinon.SinonStub {
+    const spy = sinon.stub();
+    spy.returns(returns);
+    this.replaceFunction(funcName as string, spy);
+    return spy;
   }
 
   protected replaceFunction(funcName: string, newFunc: () => any) {
@@ -55,9 +59,9 @@ export class MockManager<T> extends Manager {
     return funcNames;
   }
 
-  protected createStubClass(): IConstruct<T> {
+  protected createStubClass() {
     // tslint:disable-next-line:max-classes-per-file
-    const stubClass = class {
+    this.stubClass = class {
       constructor() {
         return;
       }
@@ -65,8 +69,7 @@ export class MockManager<T> extends Manager {
 
     this.getAllFunctionNames(this.original)
       .forEach((funcName) => {
-        this.mock(funcName as keyof T);
+        this.mock(funcName as Extract<keyof T, string>);
       });
-    return stubClass;
   }
 }

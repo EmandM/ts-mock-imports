@@ -1,14 +1,14 @@
 import { SinonStub } from 'sinon';
 import { MockManager } from '.';
-import { IConstruct } from '../types';
+import { IConstruct, StringKeyOf } from '../types';
 
 export class StaticMockManager<T> extends MockManager<T> {
-  public mock(funcName: keyof IConstruct<T>, ...args: any[]): SinonStub {
-    return super.mock(funcName as keyof T, ...args);
+  public mock(funcName: StringKeyOf<IConstruct<T>>, ...args: any[]): SinonStub {
+    return super.mockFunction(funcName, ...args);
   }
 
-  public set(varName: keyof IConstruct<T>, ...args: any[]): void {
-    return super.set(varName as keyof T, ...args);
+  public set(varName: string, replaceWith: any): void {
+    return super.replace(varName, replaceWith);
   }
 
   protected replace(name: string, arg: any) {
