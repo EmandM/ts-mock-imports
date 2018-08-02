@@ -6,7 +6,6 @@
     "lib": ["es2017", "dom"],
     "target": "es5",
     "jsx": "react",
-    "types" : ["lodash"],
     "declaration": true,
     "noImplicitAny": true,
     "noUnusedLocals": true,
