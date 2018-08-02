@@ -1,5 +1,5 @@
 import * as sinonModule from 'sinon';
-import { MockManager, StaticMockManager, OtherManager } from './managers';
+import { MockManager, OtherManager, StaticMockManager } from './managers';
 import { IConstruct } from './types';
 const sinon = sinonModule as sinonModule.SinonStatic;
 
