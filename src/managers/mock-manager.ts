@@ -8,12 +8,12 @@ export interface IMockOptions {
 }
 
 export class MockManager<T> extends Manager {
-  protected original: IConstruct<T>;
+  protected original!: IConstruct<T>;
   protected stubClass: IConstruct<T>;
 
   constructor(protected module: IModule, protected importName: string) {
     super(module, importName);
-    this.createStubClass();
+    this.stubClass = this.createStubClass();
     this.module[this.importName] = this.stubClass;
   }
 
@@ -55,17 +55,18 @@ export class MockManager<T> extends Manager {
     return funcNames;
   }
 
-  protected createStubClass() {
+  protected createStubClass(): IConstruct<T> {
     // tslint:disable-next-line:max-classes-per-file
-    this.stubClass = class {
+    const stubClass = class {
       constructor() {
         return;
       }
-    } as any as IConstruct<T>;
+    } as any;
 
     this.getAllFunctionNames(this.original)
       .forEach((funcName) => {
         this.mock(funcName as keyof T);
       });
+    return stubClass;
   }
 }
