@@ -1,24 +1,43 @@
-import { IConstruct } from '../types';
-import { ClassManager } from './class-manager';
+import * as sinonModule from 'sinon';
+import { IConstruct, IModule } from '../types';
+import { Manager } from './manager';
+const sinon = sinonModule as sinonModule.SinonStatic;
 
 export interface IMockOptions {
   returns?: any;
 }
 
-export class MockManager<T> extends ClassManager {
+export class MockManager<T> extends Manager {
   protected original: IConstruct<T>;
   protected stubClass: IConstruct<T>;
 
+  constructor(protected module: IModule, protected importName: string) {
+    super(module, importName);
+    this.createStubClass();
+    this.module[this.importName] = this.stubClass;
+  }
+
   public mock(funcName: keyof T, returns?: any): sinon.SinonStub {
-    return super.mock(funcName, returns);
+    const spy = sinon.stub();
+    spy.returns(returns);
+    this.replaceFunction(funcName as string, spy);
+    return spy;
   }
 
   public set<K extends keyof T>(varName: K, replaceWith?: T[K]): void {
-    super.replace(varName as string, replaceWith);
+    this.replace(varName as string, replaceWith);
   }
 
   public getMockInstance(): T {
     return new this.stubClass();
+  }
+
+  protected replaceFunction(funcName: string, newFunc: () => any) {
+    this.replace(funcName, newFunc);
+  }
+
+  protected replace(name: string, arg: any) {
+    this.stubClass.prototype[name] = arg;
   }
 
   protected getAllFunctionNames(obj: any) {
@@ -34,5 +53,19 @@ export class MockManager<T> extends ClassManager {
 
     // Remove duplicate methods
     return funcNames;
+  }
+
+  protected createStubClass() {
+    // tslint:disable-next-line:max-classes-per-file
+    this.stubClass = class {
+      constructor() {
+        return;
+      }
+    } as any as IConstruct<T>;
+
+    this.getAllFunctionNames(this.original)
+      .forEach((funcName) => {
+        this.mock(funcName as keyof T);
+      });
   }
 }

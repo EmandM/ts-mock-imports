@@ -1,12 +1,13 @@
 import { SinonStub } from 'sinon';
-import { ClassManager } from './class-manager';
+import { MockManager } from '.';
+import { IConstruct } from '../types';
 
-export class StaticMockManager<T> extends ClassManager {
-  public mock(funcName: string, ...args: any[]): SinonStub {
+export class StaticMockManager<T> extends MockManager<T> {
+  public mock(funcName: keyof IConstruct<T>, ...args: any[]): SinonStub {
     return super.mock(funcName as keyof T, ...args);
   }
 
-  public set(varName: string, ...args: any[]): void {
+  public set(varName: keyof IConstruct<T>, ...args: any[]): void {
     return super.set(varName as keyof T, ...args);
   }
 

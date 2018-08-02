@@ -1,22 +1,18 @@
 import { IModule } from '../types';
+import { Manager } from './manager';
 
-export class OtherManager<T> {
-  private original: T;
+export class OtherManager<T> extends Manager {
+  protected original: T;
   private replaceWith: T;
 
-  constructor(private module: IModule, private importName: string, replaceWith?: any) {
-    this.original = this.module[this.importName];
+  constructor(protected module: IModule, protected importName: string, replaceWith?: any) {
+    super(module, importName);
     this.replace(replaceWith);
   }
 
   public set(replaceWith: T): void {
     this.replace(replaceWith);
   }
-
-  public restore() {
-    this.module[this.importName] = this.original;
-  }
-
   public getValue(): T {
     return this.replaceWith;
   }
