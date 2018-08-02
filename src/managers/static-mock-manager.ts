@@ -1,4 +1,3 @@
-import { uniq } from 'lodash-es';
 import { SinonStub } from 'sinon';
 import { ClassManager } from './class-manager';
 
@@ -28,6 +27,6 @@ export class StaticMockManager<T> extends ClassManager {
     } while (obj && obj.prototype && obj.prototype !== Object.prototype);
 
     // Remove duplicate methods
-    return uniq(funcNames);
+    return funcNames;
   }
 }

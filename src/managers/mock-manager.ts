@@ -1,4 +1,3 @@
-import { uniq } from 'lodash-es';
 import { IConstruct } from '../types';
 import { ClassManager } from './class-manager';
 
@@ -34,6 +33,6 @@ export class MockManager<T> extends ClassManager {
     } while (obj && obj.prototype && obj.prototype !== Object.prototype);
 
     // Remove duplicate methods
-    return uniq(funcNames);
+    return funcNames;
   }
 }

@@ -1,4 +1,3 @@
-import { forEach } from 'lodash-es';
 import * as sinonModule from 'sinon';
 import { IModule } from '../types';
 const sinon = sinonModule as sinonModule.SinonStatic;
@@ -56,9 +55,9 @@ export class ClassManager {
       }
     } as any;
 
-    const functions = this.getAllFunctionNames(this.original);
-    forEach(functions, (funcName) => {
-      this.mock(funcName);
-    });
+    this.getAllFunctionNames(this.original)
+      .forEach((funcName) => {
+        this.mock(funcName);
+      });
   }
 }

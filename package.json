@@ -41,12 +41,9 @@
     "dev": "webpack --progress --colors --watch",
     "init": "rimraf .git && git init"
   },
-  "dependencies": {
-    "lodash-es": "^4.17.10"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/chai": "^4.1.3",
-    "@types/lodash-es": "^4.17.1",
     "@types/mocha": "^5.2.0",
     "@types/sinon": "^5.0.0",
     "chai": "^4.1.2",
