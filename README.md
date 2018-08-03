@@ -4,6 +4,23 @@
 
 [![Build Status](https://travis-ci.org/EmandM/ts-mock-imports.svg)](https://travis-ci.org/EmandM/ts-mock-imports)
 
+<!-- TOC -->
+
+- [Typescript Mock Imports](#typescript-mock-imports)
+            - [Intuitive mocking for Typescript class imports.](#intuitive-mocking-for-typescript-class-imports)
+    - [Installation](#installation)
+    - [About](#about)
+    - [Usage](#usage)
+    - [API](#api)
+        - [ImportMock](#importmock)
+        - [MockManager (and MockStaticManager)](#mockmanager-and-mockstaticmanager)
+        - [OtherManager](#othermanager)
+    - [Test](#test)
+        - [Typescript Tests](#typescript-tests)
+        - [Unit Tests](#unit-tests)
+
+<!-- /TOC -->
+
 ## Installation
 
 `npm install ts-mock-imports --save-dev`
@@ -309,7 +326,7 @@ It is important that this is called so future imports work as expected.
 npm run test
 ```
 
-### Test Types
+### Typescript Tests
 
 ```
 npm run dtslint
