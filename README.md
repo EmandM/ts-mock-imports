@@ -2,9 +2,7 @@
 
 #### Intuitive mocking for Typescript class imports.
 
-[![npm](https://img.shields.io/npm/v/ts-mock-imports.svg)](https://www.npmjs.com/package/ts-mock-imports)
-
-[![Build Status](https://travis-ci.org/EmandM/ts-mock-imports.svg)](https://travis-ci.org/EmandM/ts-mock-imports)
+[![npm](https://img.shields.io/npm/v/ts-mock-imports.svg)](https://www.npmjs.com/package/ts-mock-imports) [![Build Status](https://travis-ci.org/EmandM/ts-mock-imports.svg)](https://travis-ci.org/EmandM/ts-mock-imports)
 
 <!-- TOC -->
 
