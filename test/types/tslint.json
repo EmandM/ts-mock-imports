@@ -1,6 +1,7 @@
 {
   "extends": "dtslint/dtslint.json",
   "rules": {
-    "no-useless-files": false
+    "no-useless-files": false,
+    "file-name-casing": [true, "kebab-case"]
   }
 }
