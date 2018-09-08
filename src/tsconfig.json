@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "outDir": "../lib",
+    "sourceMap": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "lib": [ "es5", "es6", "dom" ],
+    "target": "es5",
+    "declaration": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "removeComments": true
+  }
+}

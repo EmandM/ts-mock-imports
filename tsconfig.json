@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
-    "outDir": "./lib/",
+    "outDir": "./lib",
     "sourceMap": true,
     "module": "commonjs",
-    "lib": ["es2017", "dom"],
+    "moduleResolution": "node",
+    "lib": [ "es5", "es6", "dom" ],
     "target": "es5",
-    "jsx": "react",
     "declaration": true,
     "noImplicitAny": true,
     "noUnusedLocals": true,
