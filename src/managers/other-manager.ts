@@ -3,21 +3,23 @@ import { Manager } from './manager';
 
 export class OtherManager<T> extends Manager {
   protected original!: T;
-  private replaceWith!: T;
+  private replaceWith!: Partial<T>;
 
-  constructor(protected module: IModule, protected importName: string, replaceWith?: any) {
+  constructor(protected module: IModule, protected importName: string, replaceWith?: Partial<T>) {
     super(module, importName);
-    this.replace(replaceWith);
+    if (replaceWith) {
+      this.replace(replaceWith);
+    }
   }
 
-  public set(replaceWith: T): void {
+  public set(replaceWith: Partial<T>): void {
     this.replace(replaceWith);
   }
-  public getValue(): T {
+  public getValue(): Partial<T> {
     return this.replaceWith;
   }
 
-  private replace(replaceWith: T) {
+  private replace(replaceWith: Partial<T>) {
     this.replaceWith = replaceWith;
     this.module[this.importName] = replaceWith;
   }

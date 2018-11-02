@@ -18,7 +18,7 @@ export class ImportMock {
     return sinon.stub(module, importName as string).returns(returns);
   }
 
-  public static mockOther<T extends IModule, K extends keyof T>(module: { [importName: string]: T[K] } | T, importName?: K, replaceWith?: T[K]) {
+  public static mockOther<T extends IModule, K extends keyof T>(module: { [importName: string]: T[K] } | T, importName?: K, replaceWith?: Partial<T[K]>) {
     return new OtherManager<T[K]>(module, importName as string || 'default', replaceWith);
   }
 }

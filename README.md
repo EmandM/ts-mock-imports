@@ -156,7 +156,7 @@ stub.restore()
 
 ---
 
-**`mockOther(module: <import * as>, importName?: string, replaceWith: any): OtherManager<T>`**
+**`mockOther(module: <import * as>, importName?: string, replaceWith: Partial<typeof module.importName>): OtherManager<T>`**
 
 `mockOther()` uses the replaceWith argument to entirely replace the original exported item.
 
@@ -169,6 +169,10 @@ import * as fooModule from '../foo';
 const mockManager = ImportMock.mockOther(fooModule, 'fooName', 'fakeName');
 // import { fooName } from './foo' now returns 'fakeName'
 ```
+
+**replaceWith:**
+
+Requires an object that matches Partial<OriginalType>. This argument is an optional shorthand, and the value can be updated using mockMangaer.set().
 
 ---
 
