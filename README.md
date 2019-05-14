@@ -317,6 +317,10 @@ Restores the import back to the original class.
 It is important that this is called so future imports work as expected.
 
 
+## Limitations
+
+Requirejs is not currently compatible with this library
+
 
 ## Test
 
