@@ -17,7 +17,20 @@
 
 ## Installation
 
-`npm install ts-mock-imports --save-dev`
+ts-mock-imports is built on top of Sinon and TypeScript. Ensure you have both installed.
+
+```bash
+npm install typescript
+
+npm install sinon --save-dev
+```
+
+Install the library
+
+```
+npm install ts-mock-imports --save-dev
+```
+
 
 ## About
 
