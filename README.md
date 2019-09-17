@@ -1,6 +1,6 @@
 # Typescript Mock Imports
 
-#### Intuitive mocking for Typescript class imports.
+#### Intuitive mocking for Typescript imports.
 
 [![npm](https://img.shields.io/npm/v/ts-mock-imports.svg)](https://www.npmjs.com/package/ts-mock-imports) [![Build Status](https://travis-ci.org/EmandM/ts-mock-imports.svg)](https://travis-ci.org/EmandM/ts-mock-imports)
 
@@ -332,10 +332,17 @@ It is important that this is called so future imports work as expected.
 
 ## Limitations
 
-Requirejs is not currently compatible with this library
+Import mock works best when mocking es6 exports. Due to JavaScript's sometimes winding development history, there are some modules that use alternate export patterns that may not work correctly when mocked using Import mock. To reduce the chance of issues, all production code should aim to use `import { item } from 'module';` syntax. This allows the test code to use `import * as object from 'module';` syntax seamlessly.
+
+Requirejs is not currently compatible with this library.
+
 
 
 ## Test
+
+This library contains two types of tests. Typescript tests ensure the typing systems work as intended, while unit tests check the runtime functionality of the library.
+
+### All tests
 
 ```
 npm run test
