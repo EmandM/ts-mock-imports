@@ -36,7 +36,7 @@ export class MockManager<T> extends Manager {
     return spy;
   }
 
-  protected replaceFunction(funcName: string, newFunc: () => any) {
+  public replaceFunction(funcName: string, newFunc: () => any) {
     this.replace(funcName, newFunc);
   }
 
