@@ -6,9 +6,9 @@
 
 ## About
 
-ts-mock-imports is useful if you want to replace objects that are exported from local files with stub versions of those objects. This allows ES6 code to be easily unit-tested without the need for an explicit dependency injection library.
+ts-mock-imports is useful if you want to replace imports with stub versions of those imports. This allows ES6 code to be easily unit-tested without the need for an explicit dependency injection library.
 
-ts-mock-imports is built on top of sinon.
+ts-mock-imports is built on top of sinon. [Sinon stub documentation](https://sinonjs.org/releases/latest/stubs/)
 
 Mocked classes take all of the original class functions, and replace them with noop functions (functions returning `undefined`).
 
@@ -195,7 +195,7 @@ Requires an object that matches Partial<OriginalType>. This argument is an optio
 
 **`MockManager<T>.mock(functionName: string, returns?: any): SinonStub`**
 
-This function returns a sinon stub object.
+Returns a sinon stub object.
 
 **functionName:**
 
@@ -209,7 +209,6 @@ MockStaticManager allows any string.
 
 The value returned when the mocked function is called.
 
-
 Mocking functions:
 (Returns a sinon stub)
 ```javascript
@@ -218,7 +217,8 @@ import * as fooModule from '../foo';
 const fooManager = ImportMock.mockClass(fooModule, 'Foo');
 
 // Will throw a type error if bar() does not exist on Foo
-const sinonStub = fooManager.mock('bar');
+fooManager.mock('bar');
+// new Foo().bar() will return undefined
 ```
 
 Mocking functions with a return object:
@@ -227,9 +227,17 @@ import * as fooModule from '../foo';
 
 const mockManager = ImportMock.mockClass(fooModule, 'Foo');
 
-const returnVal = 'Bar';
-const sinonStub = mockManager.mock('bar', returnVal);
+mockManager.mock('bar', 'Bar');
 // new Foo().bar() now returns 'Bar'
+```
+
+If you wish to run modified code when the mocked function is called, you can use `sinon.callsFake()`
+```javascript
+const mockManager = ImportMock.mockClass(fooModule, 'Foo');
+const sinonStub = mockManager.mock('bar');
+sinonStub.callsFake(() => {
+  // custom code here
+})
 ```
 
 ---

@@ -32,7 +32,7 @@ export class MockManager<T> extends Manager {
   protected mockFunction(funcName: string, returns?: any): sinon.SinonStub {
     const spy = sinon.stub();
     spy.returns(returns);
-    this.replaceFunction(funcName as string, spy);
+    this.replaceFunction(funcName, spy);
     return spy;
   }
 
