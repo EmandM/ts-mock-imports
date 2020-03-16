@@ -29,7 +29,7 @@
   "homepage": "https://github.com/EmandM/ts-mock-imports",
   "peerDependencies": {
     "typescript": ">=2.6.1 < 4",
-    "sinon": ">= 4.1.2 < 7.4"
+    "sinon": ">= 4.1.2"
   },
   "scripts": {
     "dtslint": "dtslint test/types",
@@ -37,7 +37,8 @@
     "lint-fix": "tslint --project tsconfig.json --fix  'src/**/*{.ts,.tsx}'",
     "unit-test": "mocha -r ts-node/register test/**/*.spec.ts",
     "test": "npm run dtslint && npm run unit-test",
-    "compile": "rimraf lib && tsc -p src"
+    "compile": "rimraf lib && tsc -p src",
+    "build": "npm run compile"
   },
   "dependencies": {},
   "devDependencies": {
