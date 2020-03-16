@@ -36,6 +36,13 @@ describe('Class Mock', () => {
       expect(consumer.foo()).to.be.undefined;
       manager.restore();
     });
+
+    it('should restore back to the original import', () => {
+      const manager = ImportMock.mockStaticClass(staticTestClass, 'StaticTestClass');
+      const consumer = new StaticTestClassConsumer();
+      manager.restore();
+      expect(consumer.foo()).to.equal('bar');
+    });
   });
 
   describe('Mock Manager', () => {
