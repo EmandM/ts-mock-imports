@@ -1,6 +1,6 @@
-import { IModule } from '../types';
+import { IModule, IManager } from '../types';
 
-export class Manager {
+export class Manager implements IManager {
   protected original: any;
 
   constructor(protected module: IModule, protected importName: string) {

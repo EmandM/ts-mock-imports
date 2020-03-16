@@ -6,25 +6,25 @@
 
 ## About
 
-ts-mock-imports is useful if you want to replace imports with stub versions of those imports. This allows ES6 code to be easily unit-tested without the need for an explicit dependency injection library.
+ts-mock-imports leverages the ES6 `import` syntax to mock out imported code with stub versions of the imported objects. This allows ES6 code to be easily unit-tested without the need for an explicit dependency injection library.
 
 ts-mock-imports is built on top of sinon. [Sinon stub documentation](https://sinonjs.org/releases/latest/stubs/)
 
-Mocked classes take all of the original class functions, and replace them with noop functions (functions returning `undefined`).
+Mocked classes take all of the original class functions, and replace them with noop functions (functions returning `undefined`) while maintaining type safety.
 
 This library needs to be run on TypeScript 2.6.1 or later.
 
-
-- [About](#about)
-- [Installation](#installation)
-- [Usage](#usage)
-- [API](#api)
+- [Typescript Mock Imports](#typescript-mock-imports)
+      - [Intuitive mocking for Typescript imports.](#intuitive-mocking-for-typescript-imports)
+  - [About](#about)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [API](#api)
     - [ImportMock](#importmock)
     - [MockManager (and MockStaticManager)](#mockmanager-and-mockstaticmanager)
     - [OtherManager](#othermanager)
-- [Test](#test)
-    - [Typescript Tests](#typescript-tests)
-    - [Unit Tests](#unit-tests)
+  - [Limitations](#limitations)
+  - [Test](#test)
 
 ## Installation
 
@@ -45,16 +45,21 @@ npm install ts-mock-imports --save-dev
 ## Usage
 
 `src/foo.ts`
-```javascript
+```typescript
 export class Foo {
+  private count: number;
   constructor() {
     throw new Error();
+  }
+
+  public getCount(): number {
+    return count;
   }
 }
 ```
 
 `src/bar.ts`
-```javascript
+```typescript
 import { Foo } from './foo';
 
 export class Bar {
@@ -65,7 +70,7 @@ export class Bar {
 ```
 
 `test/bar.spec.ts`
-```javascript
+```typescript
 import { ImportMock } from 'ts-mock-imports';
 import { Bar } from './Bar';
 import * as fooModule from '../src/foo';
@@ -78,8 +83,11 @@ const mockManager = ImportMock.mockClass(fooModule, 'Foo');
 // No longer throws an error
 const bar = new Bar();
 
-// Call restore to reset to original imports
-mockManager.restore();
+// Easily add mock responses for testing
+mockmanager.mock('getCount', 3)
+
+// Call restore to reset all mocked objects to original imports
+ImportMock.restore();
 ```
 
 ## API
@@ -99,7 +107,7 @@ Both the source file and test file need to use the same path to import the mocke
 What the class is exported as. If exported using `export default` then this parameter is not needed.
 
 Using importName:
-```javascript
+```typescript
 // export class Foo
 import * as fooModule from '../src/foo';
 
@@ -107,7 +115,7 @@ const mockManager = ImportMock.mockClass(fooModule, 'Foo');
 ```
 
 Default imports:
-```javascript
+```typescript
 // export default Foo
 import * as foo from '../foo';
 
@@ -117,7 +125,7 @@ const mockManager = ImportMock.mockClass(foo);
 Import mock will infer the type of `Foo` if it is the only item exported out of it's file. If more things are exported, you will need to  explicitly provide types to Import mock.
 
 Explicit typing:
-```javascript
+```typescript
 import * as fooModule from '../foo';
 
 const mockManager = ImportMock.mockClass<fooModule.Foo>(fooModule, 'Foo');
@@ -126,7 +134,7 @@ const mockManager = ImportMock.mockClass<fooModule.Foo>(fooModule, 'Foo');
 If you wish to ensure that `Foo` is the correct name for the mocked class, give import mock the type of your module.
 
 Explicit typing with full type assurance
-```javascript
+```typescript
 import * as fooModule from '../foo';
 
 const mockManager = ImportMock.mockClass<fooModule.Foo, typeof fooModule>(fooModule, 'Foo');
@@ -145,7 +153,7 @@ Takes the same arguments as `mockClass` but only replaces static functions on th
 
 Static classes:
 (Only recreates static methods)
-```javascript
+```typescript
 import * as fooModule from '../foo';
 
 const mockManager = ImportMock.mockStaticClass(fooModule, 'Foo');
@@ -160,7 +168,7 @@ Returns a SinonStub that is set up to return the optional argument.
 Call restore on the stub object to restore the original export.
 
 Function exports:
-```javascript
+```typescript
 import * as fooModule from '../foo';
 
 const stub = ImportMock.mockFunction(fooModule, 'fooFunction', 'bar');
@@ -178,7 +186,7 @@ stub.restore()
 Useful for mocking out or removing variables and enums.
 
 Variable mocking:
-```javascript
+```typescript
 import * as fooModule from '../foo';
 
 const mockManager = ImportMock.mockOther(fooModule, 'fooName', 'fakeName');
@@ -188,6 +196,31 @@ const mockManager = ImportMock.mockOther(fooModule, 'fooName', 'fakeName');
 **replaceWith:**
 
 Requires an object that matches Partial<OriginalType>. This argument is an optional shorthand, and the value can be updated using mockMangaer.set().
+
+---
+
+**`restore(): void`**
+
+`restore()` will restore all mocked items. Allows `ImportMock` to be used as a sandbox.
+
+Useful for restoring when multiple mocks have been created.
+
+Variable mocking:
+```typescript
+import * as fooModule from '../foo';
+import * as bazModule from '../baz';
+
+ImportMock.mockClass(fooModule, 'Foo');
+ImportMock.mockClass(fooModule, 'Bar');
+ImportMock.mockFunction(bazModule, 'mainFunction')
+
+// <run tests>
+
+ImportMock.restore()
+
+// all mocked imports will now be restored to their original values
+```
+
 
 ---
 
@@ -211,7 +244,7 @@ The value returned when the mocked function is called.
 
 Mocking functions:
 (Returns a sinon stub)
-```javascript
+```typescript
 import * as fooModule from '../foo';
 
 const fooManager = ImportMock.mockClass(fooModule, 'Foo');
@@ -222,7 +255,7 @@ fooManager.mock('bar');
 ```
 
 Mocking functions with a return object:
-```javascript
+```typescript
 import * as fooModule from '../foo';
 
 const mockManager = ImportMock.mockClass(fooModule, 'Foo');
@@ -232,7 +265,7 @@ mockManager.mock('bar', 'Bar');
 ```
 
 If you wish to run modified code when the mocked function is called, you can use `sinon.callsFake()`
-```javascript
+```typescript
 const mockManager = ImportMock.mockClass(fooModule, 'Foo');
 const sinonStub = mockManager.mock('bar');
 sinonStub.callsFake(() => {
@@ -260,7 +293,7 @@ The mock value of the property.
 
 
 Mocking variable with a return object:
-```javascript
+```typescript
 import * as fooModule from '../foo';
 
 const mockManager = ImportMock.mockClass(fooModule, 'Foo');
@@ -275,7 +308,7 @@ mockManager.set('count', newVal);
 **`MockManager<T>.getMockInstance(): T`**
 
 Returns an instance of the mocked class.
-```javascript
+```typescript
 import * as fooModule from '../foo';
 
 const mockManager = ImportMock.mockClass(fooModule, 'Foo');
@@ -308,7 +341,7 @@ The mock value of the export.
 
 
 Mocking variable with a return object:
-```javascript
+```typescript
 import * as fooModule from '../foo';
 
 const mockManager = ImportMock.mockOther(fooModule, 'FooName', 'fakeName');
@@ -324,7 +357,7 @@ mockManager.set(newVal);
 **`OtherManager<T>.getValue(): T`**
 
 Returns the current mockValue
-```javascript
+```typescript
 import * as fooModule from '../foo';
 
 const mockManager = ImportMock.mockOther(fooModule, 'FooName', 'fakeName');
@@ -350,22 +383,8 @@ Requirejs is not currently compatible with this library.
 
 ## Test
 
-This library contains two types of tests. Typescript tests ensure the typing systems work as intended, while unit tests check the runtime functionality of the library.
+This library contains two types of tests. 
+1. Typescript tests to ensure typing works as intended: `npm run dtslint`
+2. Unit tests to check the runtime functionality of the library: `npm run unit-test`
 
-### All tests
-
-```
-npm run test
-```
-
-### Typescript Tests
-
-```
-npm run dtslint
-```
-
-### Unit Tests
-
-```
-npm run unit-test
-```
+Both test suites are run when using `npm run test`
