@@ -54,6 +54,7 @@
     "tslint": "^5.18.0",
     "tslint-config-airbnb": "^5.11.1",
     "tslint-no-unused-expression-chai": "^0.1.4",
-    "typescript": "^3.5.2"
+    "typescript": "^3.5.2",
+    "minimist": ">=1.2.2"
   }
 }
