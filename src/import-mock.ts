@@ -1,5 +1,5 @@
 import * as sinonModule from 'sinon';
-import { MockManager, OtherManager, StaticMockManager } from './managers/index';
+import { MockManager, OtherManager, StaticMockManager, InPlaceMockManager } from './managers/index';
 import { IConstruct, IModule, IManager } from './types';
 const sinon = sinonModule as sinonModule.SinonStatic;
 
@@ -14,6 +14,11 @@ export class ImportMock {
   public static mockClass<T, K extends IModule = any>(
     module: { [importName: string]: IConstruct<T> } | K, importName: keyof K = 'default'): MockManager<T> {
     return ImportMock.sandbox(new MockManager<T>(module, importName as string));
+  }
+
+  public static mockClassInPlace<T, K extends IModule = any>(
+    module: { [importName: string]: IConstruct<T> } | K, importName: keyof K = 'default'): InPlaceMockManager<T> {
+    return ImportMock.sandbox(new InPlaceMockManager<T>(module, importName as string));
   }
 
   public static mockStaticClass<T, K extends IModule = any>(

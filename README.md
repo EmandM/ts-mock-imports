@@ -24,6 +24,9 @@ This library needs to be run on TypeScript 2.6.1 or later.
     - [MockManager (and MockStaticManager)](#mockmanager-and-mockstaticmanager)
     - [OtherManager](#othermanager)
   - [Limitations](#limitations)
+  - [`TypeError: Cannot set property TestClass of #<Object> which has only a getter`](#typeerror-cannot-set-property-testclass-of-object-which-has-only-a-getter)
+    - [InPlaceMockManager](#inplacemockmanager)
+    - [InPlaceMockManager API](#inplacemockmanager-api)
   - [Test](#test)
 
 ## Installation
@@ -378,6 +381,67 @@ It is important that this is called so future imports work as expected.
 Import mock works best when mocking es6 exports. Due to JavaScript's sometimes winding development history, there are some modules that use alternate export patterns that may not work correctly when mocked using Import mock. To reduce the chance of issues, all production code should aim to use `import { item } from 'module';` syntax. This allows the test code to use `import * as object from 'module';` syntax seamlessly.
 
 Requirejs is not currently compatible with this library.
+
+
+## `TypeError: Cannot set property TestClass of #<Object> which has only a getter`
+
+
+Typescript 3.9 introduced new functionality that blocks the key functionality of this library. With certain compilation structures, it is no longer possible to replace module exports.
+
+There is no true workaround for this issue. A partial workaround has been implemented and is in an alpha testing stage.
+
+**Warning: The following functions are potentially risky and can lead to unexpected behaviour**
+
+
+### InPlaceMockManager
+
+```typescript
+// export class Foo
+import * as fooModule from '../src/foo';
+
+const mockManager = ImportMock.mockClassInPlace(fooModule, 'Foo');
+```
+
+This replacement for `mockManager` does not replace the entire class, but instead replaces all functions on the given class **In Place**. This means the original constructor and any local class variables are left on the mocked class. `restore()` will replace all functions back to their original state, however it cannot guarantee that all internal variables are restored. As such, this function should be used with caution as memory can potentially leak between tests.
+
+`set()` is also not available on this manager.
+
+For more information: [Issue 24](https://github.com/EmandM/ts-mock-imports/issues/24)
+
+### InPlaceMockManager API
+
+**`InPlaceMockManager<T>.mock(functionName: string, returns?: any): SinonStub`**
+
+Returns a sinon stub object.
+
+**functionName:**
+
+The name of the function you would like to mock.
+
+If using MockManager, Typescript expects the functionName to match functions available on the original class.
+
+MockStaticManager allows any string.
+
+**returns:**
+
+The value returned when the mocked function is called.
+
+Mocking functions:
+(Returns a sinon stub)
+
+```typescript
+const mockManager = ImportMock.mockClassInPlace(fooModule, 'Foo');
+const sinonStub = mockManager.mock('bar');
+```
+
+
+**`MockManager<T>.restore()`**
+
+Restores the import back to the original class.
+
+It is important that this is called so future imports work as expected.
+
+**Warning: It is not guaranteed that `restore()` will completely restore the class definition**
 
 
 
