@@ -13,4 +13,8 @@ export class TestClassConsumer {
   public getCount() {
     return this.testClass.count;
   }
+
+  public callInner() {
+    return this.testClass.someProp.someFunc()
+  }
 }

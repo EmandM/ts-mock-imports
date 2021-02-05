@@ -38,6 +38,15 @@ manager.set('bar', 1);
 manager.set('count', 'one');
 
 // $ExpectType void
+manager.set('someProp', { someFunc: () => 5, foo: 'baz' });
+
+// $ExpectType void
+manager.set('someProp', { foo: 'baz' });
+
+// $ExpectError
+manager.set('someProp', { invalidKey: 'shouldError' });
+
+// $ExpectType void
 staticManager.set('count', 1);
 
 // Static variables on a class cannot be inferred

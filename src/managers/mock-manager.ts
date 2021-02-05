@@ -21,7 +21,7 @@ export class MockManager<T> extends Manager {
     return this.mockFunction(funcName, returns);
   }
 
-  public set<K extends keyof T & string>(varName: K, replaceWith?: T[K]): void {
+  public set<K extends keyof T & string>(varName: K, replaceWith?: Partial<T[K]>): void {
     this.replace(varName as string, replaceWith);
   }
 

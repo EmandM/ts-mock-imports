@@ -70,6 +70,20 @@ describe('Class Mock', () => {
       expect(consumer.getCount()).to.equal(newVal);
     });
 
+    it('should contain given value when setting a variable', () => {
+      const consumer = new TestClassConsumer();
+      const newVal = 6;
+      manager.set('someProp', {someFunc: ()=>newVal, foo: 'baz'});
+      expect(consumer.callInner()).to.equal(newVal);
+    });
+
+    it('should accept a partial replacement when setting a variable', () => {
+      const consumer = new TestClassConsumer();
+      const newVal = 6;
+      manager.set('someProp', {someFunc: ()=>newVal});
+      expect(consumer.callInner()).to.equal(newVal);
+    });
+
     it('should return a instance of the mocked class when asked', () => {
       const newReturnVal = 'baz';
       manager.mock('foo', newReturnVal);
