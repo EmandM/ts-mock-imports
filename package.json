@@ -40,20 +40,19 @@
     "compile": "rimraf lib && tsc -p src",
     "build": "npm run compile"
   },
-  "dependencies": {},
   "devDependencies": {
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.7",
     "@types/sinon": "5.0.5",
     "broken-ts-repro": "file:broken-ts-repro-1.0.0.tgz",
     "chai": "^4.2.0",
-    "dtslint": "0.3.0",
+    "dtslint": "^4.0.7",
     "mocha": "^8.2.1",
     "rimraf": "^2.6.3",
     "sinon": "^7.3.2",
     "ts-node": "^8.3.0",
     "tslint": "^5.20.1",
-    "tslint-config-airbnb": "^5.11.1",
+    "tslint-config-airbnb": "^5.11.2",
     "tslint-no-unused-expression-chai": "^0.1.4",
     "typescript": "^3.5.2"
   }

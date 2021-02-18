@@ -7,10 +7,6 @@
     "jsx": "react",
     /* Strict Type-Checking Options */
     "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "noImplicitThis": true,
     "alwaysStrict": true,
     "baseUrl": ".",
     "paths": { "ts-mock-imports": ["../../src"] }
