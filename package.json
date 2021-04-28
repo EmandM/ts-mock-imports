@@ -46,7 +46,7 @@
     "@types/sinon": "5.0.5",
     "broken-ts-repro": "file:broken-ts-repro-1.0.0.tgz",
     "chai": "^4.2.0",
-    "dtslint": "^4.0.7",
+    "dtslint": "^3.4.2",
     "mocha": "^8.2.1",
     "rimraf": "^2.6.3",
     "sinon": "^7.3.2",
