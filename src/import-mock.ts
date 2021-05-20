@@ -1,15 +1,9 @@
 import * as sinonModule from 'sinon';
-import { MockManager, OtherManager, StaticMockManager, InPlaceMockManager } from './managers/index';
-import { IConstruct, IModule, IManager } from './types';
+import { InPlaceMockManager, MockManager, OtherManager, StaticMockManager } from './managers/index';
+import { IConstruct, IManager, IModule } from './types';
 const sinon = sinonModule as sinonModule.SinonStatic;
 
 export class ImportMock {
-  private static sandboxedItems: IManager[] = [];
-
-  private static sandbox<T extends IManager>(mock: T): T {
-    ImportMock.sandboxedItems.push(mock);
-    return mock;
-  }
 
   public static mockClass<T, K extends IModule = any>(
     module: { [importName: string]: IConstruct<T> } | K, importName: keyof K = 'default'): MockManager<T> {
@@ -37,5 +31,11 @@ export class ImportMock {
   public static restore(): void {
     ImportMock.sandboxedItems.forEach(item => item.restore());
     ImportMock.sandboxedItems = [];
+  }
+  private static sandboxedItems: IManager[] = [];
+
+  private static sandbox<T extends IManager>(mock: T): T {
+    ImportMock.sandboxedItems.push(mock);
+    return mock;
   }
 }
