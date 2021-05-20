@@ -1,5 +1,5 @@
-import { IModule, IManager, StringKeyOf } from '../types';
 import * as sinonModule from 'sinon';
+import { IManager, IModule, StringKeyOf } from '../types';
 const sinon = sinonModule as sinonModule.SinonStatic;
 
 interface IOriginal {
@@ -8,11 +8,11 @@ interface IOriginal {
 
 export class InPlaceMockManager<T> implements IManager {
   protected original: IOriginal;
-  protected classFunctionNames: string[]
+  protected classFunctionNames: string[];
 
   constructor(protected module: IModule, protected importName: string) {
-    this.classFunctionNames = this.getAllFunctionNames(this.module[this.importName])
-    this.original = this.saveOriginal(this.classFunctionNames)
+    this.classFunctionNames = this.getAllFunctionNames(this.module[this.importName]);
+    this.original = this.saveOriginal(this.classFunctionNames);
     this.mockMethods(this.classFunctionNames);
   }
 
@@ -21,7 +21,15 @@ export class InPlaceMockManager<T> implements IManager {
   }
 
   public getMockInstance(): T {
-    return new this.module[this.importName];
+    return new this.module[this.importName]();
+  }
+
+  public restore() {
+    this.classFunctionNames.forEach((funcName) => {
+      if (this.original[funcName]) {
+        this.module[this.importName].prototype[funcName] = this.original[funcName];
+      }
+    });
   }
 
   protected mockFunction(funcName: string, returns?: any): sinon.SinonStub {
@@ -54,30 +62,22 @@ export class InPlaceMockManager<T> implements IManager {
     // Remove duplicate methods
     return funcNames;
   }
-  
+
   protected saveOriginal(functionNames: string[]): IOriginal {
-    var original: IOriginal = {}
+    const original: IOriginal = {};
     functionNames.forEach((funcName) => {
-      original[funcName] = this.module[this.importName].prototype[funcName]
-    })
-    return original
+      original[funcName] = this.module[this.importName].prototype[funcName];
+    });
+    return original;
   }
 
   protected mockMethods(functionNames: string[]) {
     functionNames.forEach((funcName) => {
       // Skip the constructor
       if (funcName === 'constructor') {
-        return
+        return;
       }
       this.mock(funcName as Extract<keyof T, string>);
-    });
-  }
-
-  public restore() {
-    this.classFunctionNames.forEach((funcName) => {
-      if (this.original[funcName]) {
-        this.module[this.importName].prototype[funcName] = this.original[funcName]
-      }
     });
   }
 }

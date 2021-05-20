@@ -1,4 +1,4 @@
-import { IModule, IManager } from '../types';
+import { IManager, IModule } from '../types';
 
 export class Manager implements IManager {
   protected original: any;

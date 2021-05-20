@@ -1,3 +1,3 @@
 export interface IManager {
-  restore: () => void
+  restore: () => void;
 }
