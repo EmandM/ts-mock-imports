@@ -8,9 +8,6 @@
     "type": "git",
     "url": "git://github.com/EmandM/ts-mock-imports.git"
   },
-  "publishConfig": { 
-    "registry":"https://npm.pkg.github.com"
-  },
   "keywords": [
     "import",
     "mock",
