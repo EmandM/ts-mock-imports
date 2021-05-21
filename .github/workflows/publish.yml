@@ -1,5 +1,5 @@
-name: Node.js Package
-on:
+name: Publish Package
+on: 
   release:
     types: [created]
 jobs:
@@ -25,7 +25,6 @@ jobs:
           node-version: '12'
           registry-url: 'https://registry.npmjs.org'
       - run: npm ci
-      - run: npm run compile
       # Publish to npm
       - run: npm publish --access public
         env:
@@ -40,10 +39,15 @@ jobs:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
           scope: '@emandm'
-      - run: echo registry=https://npm.pkg.github.com/emandm >> .npmrc
       # Publish to GitHub Packages
       - run: npm ci
-      - run: npm run compile
+
+      - name: Update Package Name
+        run: |
+          sed -i 's,"name": "ts-mock-imports","name": "@emandm/ts-mock-imports",' package.json
+          cat package.json
+
+      - run: echo registry=https://npm.pkg.github.com/emandm >> .npmrc
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.PUBLISH_GITHUB_TOKEN }}
