@@ -1,4 +1,4 @@
-name: Publish Package
+name: Publish Packages
 on: 
   release:
     types: [created]
@@ -25,6 +25,7 @@ jobs:
           node-version: '12'
           registry-url: 'https://registry.npmjs.org'
       - run: npm ci
+      - run: npm run compile
       # Publish to npm
       - run: npm publish --access public
         env:
@@ -41,6 +42,7 @@ jobs:
           scope: '@emandm'
       # Publish to GitHub Packages
       - run: npm ci
+      - run: npm run compile
 
       - name: Update Package Name
         run: |
