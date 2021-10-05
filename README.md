@@ -198,7 +198,7 @@ const mockManager = ImportMock.mockOther(fooModule, 'fooName', 'fakeName');
 
 **replaceWith:**
 
-Requires an object that matches Partial<OriginalType>. This argument is an optional shorthand, and the value can be updated using mockMangaer.set().
+Requires an object that matches Partial<OriginalType>. This argument is an optional shorthand, and the value can be updated using mockManager.set().
 
 ---
 
