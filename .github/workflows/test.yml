@@ -21,5 +21,8 @@ jobs:
         with:
           node-version: latest
 
+      - name: Install dependencies
+        run: npm install
+
       - name: Run Tests
         run: npm run test
