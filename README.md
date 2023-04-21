@@ -4,7 +4,6 @@
 
 [![npm](https://img.shields.io/npm/v/ts-mock-imports.svg)](https://www.npmjs.com/package/ts-mock-imports) [![Build Status](https://github.com/EmandM/ts-mock-imports/actions/workflows/publish.yml/badge.svg)](https://github.com/EmandM/ts-mock-imports/actions/workflows/publish.yml) [![Test Status](https://github.com/EmandM/ts-mock-imports/actions/workflows/test.yml/badge.svg)](https://github.com/EmandM/ts-mock-imports/actions/workflows/test.yml)
 
-
 ## About
 
 ts-mock-imports leverages the ES6 `import` syntax to mock out imported code with stub versions of the imported objects. This allows ES6 code to be easily unit-tested without the need for an explicit dependency injection library.

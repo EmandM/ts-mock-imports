@@ -12,10 +12,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [17.x, 18.x, 19.x, 20.x]
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -23,7 +19,7 @@ jobs:
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}]
+          node-version: latest
 
       - name: Run Tests
         run: npm run test
