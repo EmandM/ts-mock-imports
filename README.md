@@ -2,7 +2,8 @@
 
 #### Intuitive mocking for Typescript imports.
 
-[![npm](https://img.shields.io/npm/v/ts-mock-imports.svg)](https://www.npmjs.com/package/ts-mock-imports) [![Build Status](https://travis-ci.org/EmandM/ts-mock-imports.svg)](https://travis-ci.org/EmandM/ts-mock-imports)
+[![npm](https://img.shields.io/npm/v/ts-mock-imports.svg)](https://www.npmjs.com/package/ts-mock-imports) [![Build Status](https://github.com/EmandM/ts-mock-imports/actions/workflows/publish.yml/badge.svg)](https://github.com/EmandM/ts-mock-imports/actions/workflows/publish.yml) [![Test Status](https://github.com/EmandM/ts-mock-imports/actions/workflows/test.yml/badge.svg)](https://github.com/EmandM/ts-mock-imports/actions/workflows/test.yml)
+
 
 ## About
 
@@ -447,7 +448,7 @@ It is important that this is called so future imports work as expected.
 
 ## Test
 
-This library contains two types of tests. 
+This library contains two types of tests.
 1. Typescript tests to ensure typing works as intended: `npm run dtslint`
 2. Unit tests to check the runtime functionality of the library: `npm run unit-test`
 
