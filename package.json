@@ -53,6 +53,6 @@
     "tslint": "^5.20.1",
     "tslint-config-airbnb": "^5.11.2",
     "tslint-no-unused-expression-chai": "^0.1.4",
-    "typescript": "^5.0.4"
+    "typescript": "^5.1.6"
   }
 }
