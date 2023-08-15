@@ -6,7 +6,8 @@ import { MockManager } from '../../src/managers';
 import * as staticTestClass from '../resources/classes/static-test-class';
 import * as testClass from '../resources/classes/test-class';
 import * as defaultClass from '../resources/classes/test-default-export';
-import { DefaultClassConsumer, StaticTestClassConsumer, TestClassConsumer } from '../resources/consumers';
+import * as readonlyClass from '../resources/classes/class-with-readonly';
+import { DefaultClassConsumer, StaticTestClassConsumer, TestClassConsumer, ReadonlyClassConsumer } from '../resources/consumers';
 
 describe('Class Mock', () => {
   describe('Mock Class', () => {
@@ -25,6 +26,17 @@ describe('Class Mock', () => {
       expect(consumer.foo()).to.be.undefined;
       manager.restore();
     });
+
+    it('should work with readonly fields', () => {
+      const manager = ImportMock.mockClass(readonlyClass, 'TestReadonlyClass');
+      const mockValue = {configValue: 'test-config'};
+
+      manager.mock('getConfig', mockValue)
+      const consumer = new ReadonlyClassConsumer();
+      expect(consumer.getConfig()).to.equal(mockValue);
+
+      manager.restore();
+    })
 
   });
 

@@ -5,3 +5,4 @@ export * from './function-consumer';
 export * from './other-consumer';
 export * from './broken-test-class-consumer';
 export * from './broken-default-class-consumer';
+export * from './readonly-class-consumer';
