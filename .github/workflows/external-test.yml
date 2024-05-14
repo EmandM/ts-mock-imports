@@ -29,7 +29,7 @@ jobs:
       contents: 'read'
       id-token: 'write'
     steps:
-      - uses: actions/download-artifact@master
+      - uses: actions/download-artifact@@v4
         with:
           name: ${{ needs.build-tar.outputs.tar_name }}
           path: ${{ github.workspace }}
@@ -39,8 +39,7 @@ jobs:
           ref: master
       - uses: actions/setup-node@v4
       - run: npm ci
-      - run: npm uninstall ts-mock-imports # Ensure it is a clean install of the test package
-      - env:
-          TAR_PATH: ${{ needs.build-tar.outputs.tar_name }}
-        run: npm install ${{ github.workspace }}/$TAR_PATH
+      - run: npm uninstall ts-mock-imports # Ensure it is a clean in
+      - run: echo "Installing path=${{ github.workspace }}, tar=${{ needs.build-tar.outputs.tar_name }}"
+      - run: npm install ${{ github.workspace }}/${{ needs.build-tar.outputs.tar_name }}
       - run: npm test
