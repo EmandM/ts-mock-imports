@@ -1,4 +1,4 @@
-name: Publish Packages
+name: Test Package External
 on:
   push:
     branches:
@@ -17,7 +17,7 @@ jobs:
       - run: npm ci
       - run: npm run build
       - id: export_name
-        run: echo "tar_name=$(npm pack)"" >> $GITHUB_OUTPUT
+        run: echo "tar_name=$(npm pack)" >> $GITHUB_OUTPUT
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.export_name.outputs.tar_name }}
