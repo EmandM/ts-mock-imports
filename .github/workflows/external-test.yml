@@ -1,0 +1,41 @@
+name: Publish Packages
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  build-tar:
+    runs-on: ubuntu-latest
+    outputs:
+      tar_name: ${{ steps.export_name.outputs.tar_name }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - run: npm ci
+      - run: npm run build
+      - id: export_name
+        run: echo "tar_name=$(npm pack)"" >> $GITHUB_OUTPUT
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.export_name.outputs.tar_name }}
+          path: ${{ github.workspace }}
+  test-externally:
+    runs-on: ubuntu-latest
+    needs: build-tar
+    steps:
+      - uses: actions/download-artifact@master
+        with:
+          name: ${{ needs.build-tar.outputs.tar_name }}
+          path: ${{ github.workspace }}
+
+      - uses: actions/checkout@v4
+        with:
+          repository: EmandM/import-test
+      - uses: actions/setup-node@v4
+      - run: npm ci
+      - run: npm uninstall ts-mock-imports # Ensure it is a clean install of the test package
+      - run: npm install ./${{ needs.build-tar.outputs.tar_name }}
+      - run: npm test
