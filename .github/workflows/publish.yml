@@ -1,5 +1,5 @@
 name: Publish Packages
-on: 
+on:
   release:
     types: [created]
   workflow_dispatch:
@@ -7,10 +7,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
       - run: npm ci
       - run: npm run build
       - run: npm run lint
@@ -19,11 +17,10 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       # Setup .npmrc file to publish to npm
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v4
         with:
-          node-version: '12'
           registry-url: 'https://registry.npmjs.org'
       - run: npm ci
       - run: npm run compile
@@ -35,10 +32,9 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 12
           registry-url: https://npm.pkg.github.com/
           scope: '@emandm'
       # Publish to GitHub Packages
