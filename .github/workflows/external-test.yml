@@ -34,6 +34,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: EmandM/import-test
+          token: ${{ secrets.PUBLISH_GITHUB_TOKEN }}
       - uses: actions/setup-node@v4
       - run: npm ci
       - run: npm uninstall ts-mock-imports # Ensure it is a clean install of the test package
