@@ -7,17 +7,8 @@ on:
     branches:
       - main
 jobs:
-  verify-access:
-    runs-on: ubuntu-latest
-    steps:
-      - name: "check PUBLISH_GITHUB_TOKEN exists"
-        env:
-            super_secret: ${{ secrets.PUBLISH_GITHUB_TOKEN }}
-        if: ${{ env.super_secret == '' }}
-        run: 'echo "echo the secret \"PUBLISH_GITHUB_TOKEN\" has not been made; echo please go to \"settings \> secrets \> actions\" to create it"'
   build-tar:
     runs-on: ubuntu-latest
-    needs: verify-access
     outputs:
       tar_name: ${{ steps.export_name.outputs.tar_name }}
     steps:
@@ -34,6 +25,9 @@ jobs:
   test-externally:
     runs-on: ubuntu-latest
     needs: build-tar
+    permissions:
+      contents: 'read'
+      id-token: 'write'
     steps:
       - uses: actions/download-artifact@master
         with:
