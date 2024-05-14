@@ -33,7 +33,6 @@ jobs:
         with:
           name: ${{ needs.build-tar.outputs.tar_name }}
           path: ${{ github.workspace }}
-
       - uses: actions/checkout@v4
         with:
           repository: EmandM/import-test
@@ -43,5 +42,5 @@ jobs:
       - run: npm uninstall ts-mock-imports # Ensure it is a clean install of the test package
       - env:
           TAR_PATH: ${{ needs.build-tar.outputs.tar_name }}
-        run: npm install ./$TAR_PATH
+        run: npm install ${{ github.workspace }}/$TAR_PATH
       - run: npm test
