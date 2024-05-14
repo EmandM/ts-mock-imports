@@ -21,7 +21,7 @@ export class InPlaceMockManager<T> implements IManager {
   }
 
   public getMockInstance(): T {
-    return new this.module[this.importName]();
+    return new this.module[this.importName](); // eslint-disable-line @typescript-eslint/no-unsafe-return
   }
 
   public restore() {

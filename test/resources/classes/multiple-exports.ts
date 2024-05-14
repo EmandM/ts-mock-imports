@@ -1,5 +1,3 @@
-// tslint:disable:max-classes-per-file
-
 export class Test1 {
   constructor() {
     console.log('test1');

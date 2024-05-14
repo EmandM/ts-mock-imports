@@ -60,7 +60,6 @@ export class MockManager<T> extends Manager {
   }
 
   protected createStubClass() {
-    // tslint:disable-next-line:max-classes-per-file
     this.stubClass = class {
       constructor() {
         return;
