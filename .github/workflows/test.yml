@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,7 +20,7 @@ jobs:
         uses: actions/setup-node@v4
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run Tests
-        run: npm run test
+        run: npm test

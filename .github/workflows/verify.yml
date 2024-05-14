@@ -1,4 +1,4 @@
-name: Test Package Build
+name: Verify Code Quality
 on:
     push:
         branches:
@@ -8,12 +8,17 @@ on:
         - main
 
 jobs:
-  build:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - run: npm ci
+      - run: npm run lint
+  compile:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
       - run: npm ci
       - run: npm run build
-      - run: npm run lint
-      - run: npm test

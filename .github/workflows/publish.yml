@@ -4,7 +4,7 @@ on:
     types: [created]
   workflow_dispatch:
 jobs:
-  build:
+  verify-build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -14,7 +14,7 @@ jobs:
       - run: npm run lint
       - run: npm test
   publish-npm:
-    needs: build
+    needs: verify-build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -29,7 +29,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.PUBLISH_NPM_TOKEN }}
   publish-gpr:
-    needs: build
+    needs: verify-build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
