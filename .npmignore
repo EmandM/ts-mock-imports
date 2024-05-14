@@ -1,6 +1,7 @@
 src
 test
 tsconfig.json
-tslint.json
+tsconfig.eslint.json
+eslint.config.mjs
 webpack.config.js
 *.tgz

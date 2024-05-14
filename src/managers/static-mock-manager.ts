@@ -4,6 +4,7 @@ import { IConstruct, StringKeyOf } from '../types';
 
 export class StaticMockManager<T> extends MockManager<T> {
   public mock(funcName: StringKeyOf<IConstruct<T>>, ...args: any[]): SinonStub {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     return super.mockFunction(funcName, ...args);
   }
 
