@@ -30,6 +30,8 @@ jobs:
       - id: update_version
         run: |
           date > generated.txt
+          set -e
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
@@ -38,7 +40,7 @@ jobs:
           else
             new_version=$(npm version ${{ inputs.semver_type }} )
           fi
-          echo "Created version $new_version"
+          echo "Created version ${new_version}"
 
           git push && git push --tags
 
@@ -52,7 +54,7 @@ jobs:
       - uses: ncipollo/release-action@v1
         with:
           artifacts: "${{ steps.pack_tar.outputs.tar_name }}"
-          tag: "v${{ steps.update_version.outputs.version_number }}"
-          commit: "Release version v${{ steps.update_version.outputs.version_number }}"
+          tag: "${{ steps.update_version.outputs.version_number }}"
+          commit: "Release version ${{ steps.update_version.outputs.version_number }}"
           generateReleaseNotes: true
           prerelease: ${{ inputs.prerelease }}
