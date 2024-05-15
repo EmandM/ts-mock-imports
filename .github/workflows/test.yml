@@ -9,20 +9,13 @@ on:
       - main
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: latest
-
-      - name: Install dependencies
-        run: npm install
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - run: npm ci
 
       - name: Run Tests
-        run: npm run test
+        run: npm test
