@@ -41,21 +41,23 @@ jobs:
 
       - id: update_version
         name: Update Package Version
+        env:
+          PREID: rc
         run: |
           echo foo > bar.txt
           set -e
 
           if [[ ${{ inputs.prerelease }} ]]; then
             current_version=$(npm pkg get version | sed 's/"//g')
-            echo "Creating prerelease version. Current version is $current_version"
-            if [[ current_version =~ "rc" ]]; then
+            echo "Creating prerelease version. Current version is ${current_version}"
+            if [[ ${current_version} =~ ${PREID} ]]; then
               echo "subsequent prerelease version"
               # as current version is a prerelease, we can just bump the prerelease number
               new_version=$(npm version prerelease --sign-git-tag -m "Create prererelease version %s" )
             else
               echo "first prerelease version"
               # if not a prerelease, we need to create a prerelease version
-              new_version=$(npm version --preid="rc" pre${{ inputs.semver_type }} --sign-git-tag -m "Create prererelease version %s" )
+              new_version=$(npm version --preid=${PREID} pre${{ inputs.semver_type }} --sign-git-tag -m "Create prererelease version %s" )
             fi
           else
             echo "creating new release"
