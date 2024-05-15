@@ -74,7 +74,7 @@ jobs:
       - run: npm run compile
       # Publish to npm
       - run: |
-          if [[ ${{ needs.setup.outputs.do_dry_run }} == 'true' ]]; then
+          if [[ ${{ inputs.prerelease }} == 'true' ]]; then
             npm publish --access public --dry-run
           else
             npm publish --access public
