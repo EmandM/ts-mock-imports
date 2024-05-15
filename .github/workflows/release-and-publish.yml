@@ -41,13 +41,22 @@ jobs:
 
       - id: update_version
         name: Update Package Version
+        env:
+          PREID: rc
         run: |
           echo foo > bar.txt
           set -e
 
           if [[ ${{ inputs.prerelease }} ]]; then
             # save the value would be created, then remove all changes
-            new_version=$(npm version ${{ inputs.semver_type }} --no-commit-hooks --no-git-tag-version )
+            current_version=$(npm pkg get version | sed 's/"//g')
+            if [[ current_version == *${PREID}* ]]; then
+              # if the current version is a prerelease, we can just bump the prerelease number
+              new_version=$(npm version prerelease --no-commit-hooks --no-git-tag-version)
+            else
+              # if the current version is not a prerelease, we need to add a prerelease number
+              new_version=$(npm version --no-commit-hooks --no-git-tag-version --preid=${PREID} pre${{ inputs.semver_type }})
+            fi
             git reset --hard
           else
             new_version=$(npm version ${{ inputs.semver_type }} --sign-git-tag )
