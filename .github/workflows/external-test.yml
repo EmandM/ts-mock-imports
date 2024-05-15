@@ -7,42 +7,39 @@ on:
     branches:
       - main
 jobs:
-  build-tar:
+  run_external_test:
     runs-on: ubuntu-latest
     outputs:
       tar_name: ${{ steps.export_name.outputs.tar_name }}
     steps:
-      - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          path: build-tar
       - run: npm ci
+        working-directory: build-tar
       - run: npm run build
+        working-directory: build-tar
       - id: export_name
         run: echo "tar_name=$(npm pack)" >> $GITHUB_OUTPUT
-      - uses: actions/upload-artifact@v4
-        with:
-          name: ${{ steps.export_name.outputs.tar_name }}
-          path: ${{ github.workspace }}
-  test-externally:
-    runs-on: ubuntu-latest
-    needs: build-tar
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-    steps:
-      - run: echo "At start=${{ github.workspace }}, tar=${{ needs.build-tar.outputs.tar_name }}"
-      - uses: actions/download-artifact@v4
-        with:
-          name: ${{ needs.build-tar.outputs.tar_name }}
-          path: ${{ github.workspace }}
-      - run: echo "After download=${{ github.workspace }}, tar=${{ needs.build-tar.outputs.tar_name }}"
+        working-directory: build-tar
+
+      - run: echo "After download=${{ github.workspace }}, tar=${{ steps.export_name.outputs.tar_name }}"
       - uses: actions/checkout@v4
         with:
           repository: EmandM/import-test
           ref: master
-      - run: echo "After checkout=${{ github.workspace }}, tar=${{ needs.build-tar.outputs.tar_name }}"
-      - uses: actions/setup-node@v4
+          path: external-test
+      - run: echo "After checkout=${{ github.workspace }}, tar=${{ steps.export_name.outputs.tar_name }}"
+        working-directory: external-test
       - run: npm ci
+        working-directory: external-test
       - run: npm uninstall ts-mock-imports # Ensure it is a clean in
-      - run: echo "Installing path=${{ github.workspace }}, tar=${{ needs.build-tar.outputs.tar_name }}"
-      - run: npm install ${{ github.workspace }}/${{ needs.build-tar.outputs.tar_name }}
+        working-directory: external-test
+      - run: echo "Installing path=${{ github.workspace }}, tar=${{ steps.export_name.outputs.tar_name }}""
+        working-directory: external-test
+      - run: npm install ../build-tar/${{ steps.export_name.outputs.tar_name }}"
+        working-directory: external-test
       - run: npm test
+        working-directory: external-test
