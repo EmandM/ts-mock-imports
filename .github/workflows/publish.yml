@@ -1,7 +1,9 @@
 name: Publish Packages
 on:
   release:
-    types: [published]
+    types:
+      - prereleased
+      - released  # prd
 
 jobs:
   verify:
@@ -38,7 +40,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: verify
     environment: ${{ needs.verify.outputs.environment }}
-    if: ${{ needs.verify.outputs.environment == 'production' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -53,7 +54,6 @@ jobs:
     needs: [verify, update_version]
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ needs.verify.outputs.do_dry_run }}
       - uses: actions/checkout@v4
       # Setup .npmrc file to publish to npm
       - uses: actions/setup-node@v4
@@ -62,7 +62,7 @@ jobs:
       - run: npm ci
       - run: npm run compile
       # Publish to npm
-      - run: npm publish --access public ${{ needs.verify.outputs.do_dry_run }} --dry-run
+      - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.PUBLISH_NPM_TOKEN }}
 
@@ -86,7 +86,7 @@ jobs:
           cat package.json
 
       - run: echo registry=https://npm.pkg.github.com/emandm >> .npmrc
-      - run: npm publish ${{ needs.verify.outputs.do_dry_run }} --dry-run
+      - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -100,6 +100,6 @@ jobs:
           repository: EmandM/import-test
 
       - run: npm ci
-      - run: npm uninstall ts-mock-imports # Ensure no contamination from existing
+      - run: npm uninstall ts-mock-imports # Ensure no contamination from existing version
       - run: npm install ts-mock-imports@${{ needs.verify.outputs.npm_package_version }}
       - run: npm test
