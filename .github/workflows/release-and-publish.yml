@@ -20,6 +20,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    outputs:
+      npm_package_version: ${{ steps.update_version.outputs.version_number }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -122,5 +124,5 @@ jobs:
 
       - run: npm ci
       - run: npm uninstall ts-mock-imports # Ensure no contamination from existing version
-      - run: npm install ts-mock-imports@${{ needs.setup.outputs.npm_package_version }}
+      - run: npm install ts-mock-imports@${{ needs.create-release.outputs.npm_package_version }}
       - run: npm test
