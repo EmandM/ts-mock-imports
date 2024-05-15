@@ -1,0 +1,62 @@
+name: Setup Release
+on:
+  workflow_dispatch:
+    inputs:
+      semver_type:
+        description: "What semver type is this release?"
+        type: choice
+        required: true
+        options:
+          - patch
+          - minor
+      prerelease:
+        description: "Pre Release"
+        type: boolean
+        required: false
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - run: npm ci
+      - run: npm run build
+      - run: npm run lint
+      - run: npm test
+      - id: update_version
+        run: |
+          date > generated.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          cmd=( npm version  )
+          if [[ ${{ inputs.prerelease }} ]]; then
+            cmd+=( --preid=pre pre${{ inputs.semver_type }} )
+          else
+            cmd+=( ${{ inputs.semver_type }} )
+          fi
+          echo "Running ${cmd[@]}"
+          git push && git push --tags
+
+      - id: new_version
+        run: |
+          version=$(npm show ts-mock-imports version)
+          if [[ ${{ inputs.prerelease }} ]]; then
+            version+="-${{ github.sha }}"
+          fi
+          echo "version_number=$version" >> $GITHUB_OUTPUT
+
+      - id: pack_tar
+        run: |
+          npm run build
+          echo "tar_name=$(npm pack)" >> $GITHUB_OUTPUT
+
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "${{ steps.pack_tar.outputs.tar_name }}"
+          tag: "v${{ steps.new_version.outputs.version_number }}"
+          commit: "Release version v${{ steps.new_version.outputs.version_number }}"
+          generateReleaseNotes: true
+          prerelease: ${{ inputs.prerelease }}
