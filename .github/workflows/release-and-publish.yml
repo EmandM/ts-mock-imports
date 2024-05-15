@@ -48,7 +48,7 @@ jobs:
           echo foo > bar.txt
           set -e
 
-          if [[ ${{ inputs.prerelease }} ]]; then
+          if [[ ${{ inputs.prerelease }} == 'true' ]]; then
             current_version=$(npm pkg get version | sed 's/"//g')
             echo "Creating prerelease version. Current version is ${current_version}"
             if [[ ${current_version} =~ ${PREID} ]]; then
