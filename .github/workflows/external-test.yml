@@ -6,40 +6,41 @@ on:
   pull_request:
     branches:
       - main
+
 jobs:
-  run_external_test:
+  external_test:
     runs-on: ubuntu-latest
-    outputs:
-      tar_name: ${{ steps.export_name.outputs.tar_name }}
     steps:
       - uses: actions/setup-node@v4
+
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           path: build-tar
+
       - run: npm ci
         working-directory: build-tar
+
       - run: npm run build
         working-directory: build-tar
-      - id: export_name
+
+      - id: pack_tar
         run: echo "tar_name=$(npm pack)" >> $GITHUB_OUTPUT
         working-directory: build-tar
 
-      - run: echo "After download=${{ github.workspace }}, tar=${{ steps.export_name.outputs.tar_name }}"
       - uses: actions/checkout@v4
         with:
           repository: EmandM/import-test
-          ref: master
           path: external-test
-      - run: echo "After checkout=${{ github.workspace }}, tar=${{ steps.export_name.outputs.tar_name }}"
-        working-directory: external-test
+
       - run: npm ci
         working-directory: external-test
+
       - run: npm uninstall ts-mock-imports # Ensure no contamination from existing
         working-directory: external-test
-      - run: echo "Installing path=${{ github.workspace }}, tar=${{ steps.export_name.outputs.tar_name }}"
+
+      - run: npm install ${{ github.workspace }}/build-tar/${{ steps.pack_tar.outputs.tar_name }}
         working-directory: external-test
-      - run: npm install ${{ github.workspace }}/build-tar/${{ steps.export_name.outputs.tar_name }}
-        working-directory: external-test
+
       - run: npm test
         working-directory: external-test
