@@ -51,18 +51,19 @@ jobs:
             # save the value would be created, then remove all changes
             current_version=$(npm pkg get version | sed 's/"//g')
             if [[ current_version == *${PREID}* ]]; then
+              echo "creating prerelease version"
               # if the current version is a prerelease, we can just bump the prerelease number
               new_version=$(npm version prerelease --no-commit-hooks --no-git-tag-version)
             else
               # if the current version is not a prerelease, we need to add a prerelease number
               new_version=$(npm version --no-commit-hooks --no-git-tag-version --preid=${PREID} pre${{ inputs.semver_type }})
             fi
-            git reset --hard
           else
+            echo "creating new release"
             new_version=$(npm version ${{ inputs.semver_type }} --sign-git-tag )
-            git push && git push --tags
           fi
           echo "Created version ${new_version}"
+          git push && git push --tags
           echo "version_number=$new_version" >> $GITHUB_OUTPUT
 
       - id: pack_tar
