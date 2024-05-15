@@ -38,10 +38,13 @@ jobs:
           else
             cmd+=( ${{ inputs.semver_type }} )
           fi
-          echo "Running ${cmd[@]}"
+          echo "Running $cmd"
+          new_version="${cmd[@]}"
+          echo "Created version $new_version"
+
           git push && git push --tags
 
-          echo "version_number=$(npm pkg get version | sed 's/"//g')" >> $GITHUB_OUTPUT
+          echo "version_number=$new_version" >> $GITHUB_OUTPUT
 
       - id: pack_tar
         run: |
