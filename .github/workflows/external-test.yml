@@ -30,7 +30,7 @@ jobs:
       id-token: 'write'
     steps:
       - run: echo "At start=${{ github.workspace }}, tar=${{ needs.build-tar.outputs.tar_name }}"
-      - uses: actions/download-artifact@@v4
+      - uses: actions/download-artifact@v4
         with:
           name: ${{ needs.build-tar.outputs.tar_name }}
           path: ${{ github.workspace }}
