@@ -30,6 +30,8 @@ jobs:
       - id: update_version
         run: |
           date > generated.txt
+          set -e
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           cmd=( npm version  )
