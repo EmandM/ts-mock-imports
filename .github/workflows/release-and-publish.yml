@@ -74,6 +74,7 @@ jobs:
 
       - uses: ncipollo/release-action@v1
         with:
+          allowUpdates: true
           artifacts: "${{ steps.pack_tar.outputs.tar_name }}"
           tag: "${{ steps.update_version.outputs.version_number }}"
           generateReleaseNotes: true
