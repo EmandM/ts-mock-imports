@@ -39,7 +39,7 @@ jobs:
         working-directory: external-test
       - run: echo "Installing path=${{ github.workspace }}, tar=${{ steps.export_name.outputs.tar_name }}"
         working-directory: external-test
-      - run: npm install ../build-tar/${{ steps.export_name.outputs.tar_name }}"
+      - run: npm install ${{ github.workspace }}/build-tar/${{ steps.export_name.outputs.tar_name }}
         working-directory: external-test
       - run: npm test
         working-directory: external-test
