@@ -38,7 +38,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           if [[ ${{ inputs.prerelease }} ]]; then
-            new_version=$(npm version --preid=pre ${{ inputs.semver_type }})
+            new_version=$(npm version --preid=pre pre${{ inputs.semver_type }})
           else
             new_version=$(npm version ${{ inputs.semver_type }} )
           fi
