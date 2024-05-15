@@ -41,7 +41,7 @@ jobs:
           echo "Running ${cmd[@]}"
           git push && git push --tags
 
-          echo "version_number=$(npm pkg get version)" >> $GITHUB_OUTPUT
+          echo "version_number=$(npm pkg get version | sed 's/"//g')" >> $GITHUB_OUTPUT
 
       - id: pack_tar
         run: |
