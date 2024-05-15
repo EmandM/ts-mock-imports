@@ -27,7 +27,9 @@ This library needs to be run on TypeScript 2.6.1 or later.
   - [`TypeError: Cannot set property TestClass of #<Object> which has only a getter`](#typeerror-cannot-set-property-testclass-of-object-which-has-only-a-getter)
     - [InPlaceMockManager](#inplacemockmanager)
     - [InPlaceMockManager API](#inplacemockmanager-api)
-  - [Test](#test)
+  - [Contributing](#contributing)
+    - [Test](#test)
+    - [Releasing](#releasing)
 
 ## Installation
 
@@ -445,10 +447,16 @@ It is important that this is called so future imports work as expected.
 
 
 
-## Test
+## Contributing
+
+### Test
 
 This library contains two types of tests.
 1. Typescript tests to ensure typing works as intended: `npm run dtslint`
 2. Unit tests to check the runtime functionality of the library: `npm run unit-test`
 
 Both test suites are run when using `npm run test`
+
+### Releasing
+
+Release new versions to both npm and github using the [Setup Release](https://github.com/EmandM/ts-mock-imports/actions/workflows/update-version.yml) action.
