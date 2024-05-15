@@ -57,6 +57,5 @@ jobs:
         with:
           artifacts: "${{ steps.pack_tar.outputs.tar_name }}"
           tag: "${{ steps.update_version.outputs.version_number }}"
-          commit: "Release version ${{ steps.update_version.outputs.version_number }}"
           generateReleaseNotes: true
           prerelease: ${{ inputs.prerelease }}
