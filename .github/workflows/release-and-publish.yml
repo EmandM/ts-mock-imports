@@ -46,7 +46,6 @@ jobs:
           set -e
 
           if [[ ${{ inputs.prerelease }} ]]; then
-            # save the value would be created, then remove all changes
             current_version=$(npm pkg get version | sed 's/"//g')
             echo "Creating prerelease version. Current version is $current_version"
             if [[ current_version =~ "rc" ]]; then
