@@ -35,9 +35,9 @@ jobs:
         working-directory: external-test
       - run: npm ci
         working-directory: external-test
-      - run: npm uninstall ts-mock-imports # Ensure it is a clean in
+      - run: npm uninstall ts-mock-imports # Ensure no contamination from existing
         working-directory: external-test
-      - run: echo "Installing path=${{ github.workspace }}, tar=${{ steps.export_name.outputs.tar_name }}""
+      - run: echo "Installing path=${{ github.workspace }}, tar=${{ steps.export_name.outputs.tar_name }}"
         working-directory: external-test
       - run: npm install ../build-tar/${{ steps.export_name.outputs.tar_name }}"
         working-directory: external-test
