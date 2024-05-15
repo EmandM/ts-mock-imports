@@ -32,16 +32,17 @@ jobs:
           date > generated.txt
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          cmd=( npm version  )
+
           if [[ ${{ inputs.prerelease }} ]]; then
-            cmd+=( --preid=pre pre${{ inputs.semver_type }} )
+            new_version=$(npm version --preid=pre ${{ inputs.semver_type }})
           else
-            cmd+=( ${{ inputs.semver_type }} )
+            new_version=$(npm version ${{ inputs.semver_type }} )
           fi
-          echo "Running ${cmd[@]}"
+          echo "Created version $new_version"
+
           git push && git push --tags
 
-          echo "version_number=$(npm pkg get version | sed 's/"//g')" >> $GITHUB_OUTPUT
+          echo "version_number=$new_version" >> $GITHUB_OUTPUT
 
       - id: pack_tar
         run: |
