@@ -79,7 +79,6 @@ jobs:
           tag: "${{ steps.update_version.outputs.version_number }}"
           generateReleaseNotes: true
           prerelease: ${{ inputs.prerelease }}
-          draft: false
 
 
   publish-npm:
@@ -116,13 +115,13 @@ jobs:
       - run: npm ci
       - run: npm run compile
 
-      - name: Update Package Name
+      - name: Update Package Name and Registry, and Publish
         run: |
           sed -i 's,"name": "ts-mock-imports","name": "@emandm/ts-mock-imports",' package.json
           cat package.json
 
-      - run: echo registry=https://npm.pkg.github.com/emandm >> .npmrc
-      - run: |
+          echo registry=https://npm.pkg.github.com/emandm >> .npmrc
+
           if [[ ${{ inputs.prerelease }} == 'true' ]]; then
             npm publish --dry-run
           else
