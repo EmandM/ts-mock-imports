@@ -1,11 +1,8 @@
 name: Verify Code Quality
 on:
-    push:
-        branches:
-        - main
-    pull_request:
-        branches:
-        - main
+  pull_request:
+      branches:
+      - main
 
 jobs:
   lint:

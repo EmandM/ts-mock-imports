@@ -16,6 +16,7 @@ on:
 
 jobs:
   create-release:
+    if: github.event_name != 'workflow_dispatch' || github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -40,13 +41,7 @@ jobs:
           echo "Running ${cmd[@]}"
           git push && git push --tags
 
-      - id: new_version
-        run: |
-          version=$(npm show ts-mock-imports version)
-          if [[ ${{ inputs.prerelease }} ]]; then
-            version+="-${{ github.sha }}"
-          fi
-          echo "version_number=$version" >> $GITHUB_OUTPUT
+          echo "version_number=$(npm show ts-mock-imports version)" >> $GITHUB_OUTPUT
 
       - id: pack_tar
         run: |
@@ -56,7 +51,7 @@ jobs:
       - uses: ncipollo/release-action@v1
         with:
           artifacts: "${{ steps.pack_tar.outputs.tar_name }}"
-          tag: "v${{ steps.new_version.outputs.version_number }}"
-          commit: "Release version v${{ steps.new_version.outputs.version_number }}"
+          tag: "v${{ steps.update_version.outputs.version_number }}"
+          commit: "Release version v${{ steps.update_version.outputs.version_number }}"
           generateReleaseNotes: true
           prerelease: ${{ inputs.prerelease }}
