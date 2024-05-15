@@ -23,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ssh-key: ${{secrets.YOUR_SECRET_KEY}}
+          ssh-key: ${{secrets.DEPLOY_TO_MAIN_KEY}}
       - uses: actions/setup-node@v4
       - run: npm ci
       - run: npm run build
