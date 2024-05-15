@@ -30,12 +30,6 @@ jobs:
     needs: verify
     runs-on: ubuntu-latest
     steps:
-      # Set the dry run flag on pre-release or workflow_dispatch
-      - id: set_dry_run
-        run: |
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" ] || [ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            echo "env=${{ inputs.environment }}" >> $GITHUB_OUTPUT
-          fi
       - uses: actions/checkout@v4
       # Setup .npmrc file to publish to npm
       - uses: actions/setup-node@v4
@@ -47,6 +41,7 @@ jobs:
       - run: npm publish --access public ${{ needs.verify.outputs.do_dry_run }} --dry-run
         env:
           NODE_AUTH_TOKEN: ${{ secrets.PUBLISH_NPM_TOKEN }}
+
   publish-gpr:
     needs: verify
     runs-on: ubuntu-latest
