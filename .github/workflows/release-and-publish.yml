@@ -40,7 +40,9 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           if [[ ${{ inputs.prerelease }} ]]; then
+            # save the value would be created, then remove all changes
             new_version=$(npm version ${{ inputs.semver_type }} --no-commit-hooks --no-git-tag-version )
+            git reset --hard
           else
             new_version=$(npm version ${{ inputs.semver_type }} )
           fi
