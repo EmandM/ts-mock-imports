@@ -31,25 +31,30 @@ jobs:
       - run: npm run build
       - run: npm run lint
       - run: npm test
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+          git_committer_name: github-actions[bot]
+          git_committer_email: 41898282+github-actions[bot]@users.noreply.github.com
       - id: update_version
+        name: Update Package Version
         run: |
-          date > generated.txt
+          echo foo > bar.txt
           set -e
-
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           if [[ ${{ inputs.prerelease }} ]]; then
             # save the value would be created, then remove all changes
             new_version=$(npm version ${{ inputs.semver_type }} --no-commit-hooks --no-git-tag-version )
             git reset --hard
           else
-            new_version=$(npm version ${{ inputs.semver_type }} )
+            new_version=$(npm version ${{ inputs.semver_type }} --sign-git-tag )
+            git push && git push --tags
           fi
           echo "Created version ${new_version}"
-
-          git push && git push --tags
-
           echo "version_number=$new_version" >> $GITHUB_OUTPUT
 
       - id: pack_tar
