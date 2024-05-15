@@ -29,15 +29,17 @@ jobs:
       contents: 'read'
       id-token: 'write'
     steps:
+      - run: echo "At start=${{ github.workspace }}, tar=${{ needs.build-tar.outputs.tar_name }}"
+      - uses: actions/download-artifact@@v4
+        with:
+          name: ${{ needs.build-tar.outputs.tar_name }}
+          path: ${{ github.workspace }}
+      - run: echo "After download=${{ github.workspace }}, tar=${{ needs.build-tar.outputs.tar_name }}"
       - uses: actions/checkout@v4
         with:
           repository: EmandM/import-test
           ref: master
-      - uses: actions/download-artifact@v4
-        with:
-          name: ${{ needs.build-tar.outputs.tar_name }}
-          path: ${{ github.workspace }}
-      - run: echo "Installing path=${{ github.workspace }}, tar=${{ needs.build-tar.outputs.tar_name }}"
+      - run: echo "After checkout=${{ github.workspace }}, tar=${{ needs.build-tar.outputs.tar_name }}"
       - uses: actions/setup-node@v4
       - run: npm ci
       - run: npm uninstall ts-mock-imports # Ensure it is a clean in
