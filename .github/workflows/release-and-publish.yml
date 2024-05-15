@@ -62,7 +62,7 @@ jobs:
             fi
           else
             echo "creating new release"
-            new_version=$(npm version ${{ inputs.semver_type }} --sign-git-tag -m "Release version %s")" )
+            new_version=$(npm version ${{ inputs.semver_type }} --sign-git-tag -m "Release version %s" )
           fi
           echo "Created version ${new_version}"
           git push && git push --tags
