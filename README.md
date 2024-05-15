@@ -2,7 +2,7 @@
 
 #### Intuitive mocking for Typescript imports.
 
-[![npm](https://img.shields.io/npm/v/ts-mock-imports.svg)](https://www.npmjs.com/package/ts-mock-imports) [![Build Status](https://github.com/EmandM/ts-mock-imports/actions/workflows/publish.yml/badge.svg)](https://github.com/EmandM/ts-mock-imports/actions/workflows/publish.yml) [![Test Status](https://github.com/EmandM/ts-mock-imports/actions/workflows/test.yml/badge.svg)](https://github.com/EmandM/ts-mock-imports/actions/workflows/test.yml)
+[![npm](https://img.shields.io/npm/v/ts-mock-imports.svg)](https://www.npmjs.com/package/ts-mock-imports) [![Build Status](https://github.com/EmandM/ts-mock-imports/actions/workflows/release-and-publish.yml/badge.svg)](https://github.com/EmandM/ts-mock-imports/actions/workflows/release-and-publish.yml) [![Test Status](https://github.com/EmandM/ts-mock-imports/actions/workflows/test.yml/badge.svg)](https://github.com/EmandM/ts-mock-imports/actions/workflows/test.yml)
 
 ## About
 
