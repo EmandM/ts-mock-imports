@@ -27,7 +27,9 @@ This library needs to be run on TypeScript 2.6.1 or later.
   - [`TypeError: Cannot set property TestClass of #<Object> which has only a getter`](#typeerror-cannot-set-property-testclass-of-object-which-has-only-a-getter)
     - [InPlaceMockManager](#inplacemockmanager)
     - [InPlaceMockManager API](#inplacemockmanager-api)
-  - [Test](#test)
+  - [Contributing](#contributing)
+    - [Test](#test)
+    - [Releasing](#releasing)
 
 ## Installation
 
