@@ -459,4 +459,4 @@ Both test suites are run when using `npm run test`
 
 ### Releasing
 
-Release new versions to both npm and github using the [Setup Release](https://github.com/EmandM/ts-mock-imports/actions/workflows/update-version.yml) action.
+Release new versions to both npm and github using the [Setup Release](https://github.com/EmandM/ts-mock-imports/actions/workflows/release-and-publish.yml) action.
