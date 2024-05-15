@@ -1,0 +1,126 @@
+name: Setup Release
+on:
+  workflow_dispatch:
+    inputs:
+      semver_type:
+        description: "What semver type is this release?"
+        type: choice
+        required: true
+        options:
+          - patch
+          - minor
+      prerelease:
+        description: "Pre Release"
+        type: boolean
+        required: false
+
+jobs:
+  create-release:
+    if: github.event_name != 'workflow_dispatch' || github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ssh-key: ${{secrets.DEPLOY_TO_MAIN_KEY}}
+      - uses: actions/setup-node@v4
+      - run: npm ci
+      - run: npm run build
+      - run: npm run lint
+      - run: npm test
+      - id: update_version
+        run: |
+          date > generated.txt
+          set -e
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if [[ ${{ inputs.prerelease }} ]]; then
+            new_version=$(npm version --preid=rc pre${{ inputs.semver_type }})
+          else
+            new_version=$(npm version ${{ inputs.semver_type }} )
+          fi
+          echo "Created version ${new_version}"
+
+          git push && git push --tags
+
+          echo "version_number=$new_version" >> $GITHUB_OUTPUT
+
+      - id: pack_tar
+        run: |
+          npm run build
+          echo "tar_name=$(npm pack)" >> $GITHUB_OUTPUT
+
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "${{ steps.pack_tar.outputs.tar_name }}"
+          tag: "${{ steps.update_version.outputs.version_number }}"
+          generateReleaseNotes: true
+          prerelease: ${{ inputs.prerelease }}
+
+
+  publish-npm:
+    needs: create-release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # setup .npmrc file to publish to npm
+      - uses: actions/setup-node@v4
+        with:
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm ci
+      - run: npm run compile
+      # Publish to npm
+      - run: |
+          if [[ ${{ needs.setup.outputs.do_dry_run }} == 'true' ]]; then
+            npm publish --access public --dry-run
+          else
+            npm publish --access public
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.PUBLISH_NPM_TOKEN }}
+
+  publish-gpr:
+    needs: create-release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          registry-url: https://npm.pkg.github.com/
+          scope: '@emandm'
+      # Publish to GitHub Packages
+      - run: npm ci
+      - run: npm run compile
+
+      - name: Update Package Name
+        run: |
+          sed -i 's,"name": "ts-mock-imports","name": "@emandm/ts-mock-imports",' package.json
+          cat package.json
+
+      - run: echo registry=https://npm.pkg.github.com/emandm >> .npmrc
+      - run: |
+          if [[ ${{ inputs.prerelease }} == 'true' ]]; then
+            npm publish --dry-run
+          else
+            npm publish
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  external_test:
+    runs-on: ubuntu-latest
+    needs: [create-release, publish-npm]
+    if: ${{ inputs.prerelease }} == 'false'
+    steps:
+      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: EmandM/import-test
+
+      - run: npm ci
+      - run: npm uninstall ts-mock-imports # Ensure no contamination from existing version
+      - run: npm install ts-mock-imports@${{ needs.setup.outputs.npm_package_version }}
+      - run: npm test
