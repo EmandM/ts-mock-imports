@@ -77,7 +77,7 @@ export class Bar {
 `test/bar.spec.ts`
 ```typescript
 import { ImportMock } from 'ts-mock-imports';
-import { Bar } from './Bar';
+import { Bar } from '../src/bar';
 import * as fooModule from '../src/foo';
 
 // Throws error
@@ -122,7 +122,7 @@ const mockManager = ImportMock.mockClass(fooModule, 'Foo');
 Default imports:
 ```typescript
 // export default Foo
-import * as foo from '../foo';
+import * as foo from '../src/foo';
 
 const mockManager = ImportMock.mockClass(foo);
 ```
@@ -131,7 +131,7 @@ Import mock will infer the type of `Foo` if it is the only item exported out of 
 
 Explicit typing:
 ```typescript
-import * as fooModule from '../foo';
+import * as fooModule from '../src/foo';
 
 const mockManager = ImportMock.mockClass<fooModule.Foo>(fooModule, 'Foo');
 ```
@@ -140,7 +140,7 @@ If you wish to ensure that `Foo` is the correct name for the mocked class, give 
 
 Explicit typing with full type assurance
 ```typescript
-import * as fooModule from '../foo';
+import * as fooModule from '../src/foo';
 
 const mockManager = ImportMock.mockClass<fooModule.Foo, typeof fooModule>(fooModule, 'Foo');
 
@@ -159,7 +159,7 @@ Takes the same arguments as `mockClass` but only replaces static functions on th
 Static classes:
 (Only recreates static methods)
 ```typescript
-import * as fooModule from '../foo';
+import * as fooModule from '../src/foo';
 
 const mockManager = ImportMock.mockStaticClass(fooModule, 'Foo');
 ```
@@ -174,7 +174,7 @@ Call restore on the stub object to restore the original export.
 
 Function exports:
 ```typescript
-import * as fooModule from '../foo';
+import * as fooModule from '../src/foo';
 
 const stub = ImportMock.mockFunction(fooModule, 'fooFunction', 'bar');
 // fooFunction will now return bar
@@ -192,7 +192,7 @@ Useful for mocking out or removing variables and enums.
 
 Variable mocking:
 ```typescript
-import * as fooModule from '../foo';
+import * as fooModule from '../src/foo';
 
 const mockManager = ImportMock.mockOther(fooModule, 'fooName', 'fakeName');
 // import { fooName } from './foo' now returns 'fakeName'
@@ -212,11 +212,11 @@ Useful for restoring when multiple mocks have been created.
 
 Variable mocking:
 ```typescript
-import * as fooModule from '../foo';
-import * as bazModule from '../baz';
+import * as fooModule from '../src/foo';
+import * as bazModule from '../src/baz';
 
 ImportMock.mockClass(fooModule, 'Foo');
-ImportMock.mockClass(fooModule, 'Bar');
+ImportMock.mockClass(fooModule, 'OtherFoo');
 ImportMock.mockFunction(bazModule, 'mainFunction')
 
 // <run tests>
@@ -250,7 +250,7 @@ The value returned when the mocked function is called.
 Mocking functions:
 (Returns a sinon stub)
 ```typescript
-import * as fooModule from '../foo';
+import * as fooModule from '../src/foo';
 
 const fooManager = ImportMock.mockClass(fooModule, 'Foo');
 
@@ -261,7 +261,7 @@ fooManager.mock('bar');
 
 Mocking functions with a return object:
 ```typescript
-import * as fooModule from '../foo';
+import * as fooModule from '../src/foo';
 
 const mockManager = ImportMock.mockClass(fooModule, 'Foo');
 
@@ -299,7 +299,7 @@ The mock value of the property.
 
 Mocking variable with a return object:
 ```typescript
-import * as fooModule from '../foo';
+import * as fooModule from '../src/foo';
 
 const mockManager = ImportMock.mockClass(fooModule, 'Foo');
 
@@ -314,7 +314,7 @@ mockManager.set('count', newVal);
 
 Returns an instance of the mocked class.
 ```typescript
-import * as fooModule from '../foo';
+import * as fooModule from '../src/foo';
 
 const mockManager = ImportMock.mockClass(fooModule, 'Foo');
 
@@ -347,7 +347,7 @@ The mock value of the export.
 
 Mocking variable with a return object:
 ```typescript
-import * as fooModule from '../foo';
+import * as fooModule from '../src/foo';
 
 const mockManager = ImportMock.mockOther(fooModule, 'FooName', 'fakeName');
 // import { FooName } from './foo' imports 'fakeName'
@@ -363,7 +363,7 @@ mockManager.set(newVal);
 
 Returns the current mockValue
 ```typescript
-import * as fooModule from '../foo';
+import * as fooModule from '../src/foo';
 
 const mockManager = ImportMock.mockOther(fooModule, 'FooName', 'fakeName');
 
