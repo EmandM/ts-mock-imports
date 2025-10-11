@@ -8,6 +8,7 @@
     "type": "git",
     "url": "git+https://github.com/EmandM/ts-mock-imports.git"
   },
+  "type": "module",
   "keywords": [
     "import",
     "mock",

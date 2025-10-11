@@ -11,3 +11,5 @@
 // TypeScript Version: 4.9
 // TypeScript Version: 5.0
 // TypeScript Version: 5.1
+// TypeScript Version: 5.5
+// TypeScript Version: 5.9
