@@ -14,6 +14,11 @@ on:
         type: boolean
         required: false
 
+
+permissions:
+  id-token: write  # Required for OIDC
+  contents: read
+
 jobs:
   create-release:
     if: github.event_name != 'workflow_dispatch' || github.ref == 'refs/heads/main'
@@ -82,10 +87,11 @@ jobs:
           generateReleaseNotes: true
           prerelease: ${{ inputs.prerelease }}
 
-
   publish-npm:
     needs: create-release
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write  # Required for OIDC
     steps:
       - uses: actions/checkout@v4
         with:
@@ -103,38 +109,38 @@ jobs:
           else
             npm publish --access public
           fi
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.PUBLISH_NPM_TOKEN }}
 
-  publish-gpr:
-    needs: create-release
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ needs.create-release.outputs.release_git_sha }}
-      - uses: actions/setup-node@v4
-        with:
-          registry-url: https://npm.pkg.github.com/
-          scope: '@emandm'
-      # Publish to GitHub Packages
-      - run: npm ci
-      - run: npm run compile
+  # Nobody is using the package from Github releases. Let's keep releasing simple for now
+  #
+  # publish-gpr:
+  #   needs: create-release
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #       with:
+  #         ref: ${{ needs.create-release.outputs.release_git_sha }}
+  #     - uses: actions/setup-node@v4
+  #       with:
+  #         registry-url: https://npm.pkg.github.com/
+  #         scope: '@emandm'
+  #     # Publish to GitHub Packages
+  #     - run: npm ci
+  #     - run: npm run compile
 
-      - name: Update Package Name and Registry, and Publish
-        run: |
-          sed -i 's,"name": "ts-mock-imports","name": "@emandm/ts-mock-imports",' package.json
-          cat package.json
+  #     - name: Update Package Name and Registry, and Publish
+  #       run: |
+  #         sed -i 's,"name": "ts-mock-imports","name": "@emandm/ts-mock-imports",' package.json
+  #         cat package.json
 
-          echo registry=https://npm.pkg.github.com/emandm >> .npmrc
+  #         echo registry=https://npm.pkg.github.com/emandm >> .npmrc
 
-          if [[ ${{ inputs.prerelease }} == 'true' ]]; then
-            npm publish --dry-run
-          else
-            npm publish
-          fi
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #         if [[ ${{ inputs.prerelease }} == 'true' ]]; then
+  #           npm publish --dry-run
+  #         else
+  #           npm publish
+  #         fi
+  #       env:
+  #         NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   external_test:
     runs-on: ubuntu-latest
