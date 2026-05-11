@@ -1,8 +1,7 @@
 import { IModule } from '../types';
 import { Manager } from './manager';
 
-export class OtherManager<T> extends Manager {
-  protected original!: T;
+export class OtherManager<T> extends Manager<T> {
   private replaceWith!: Partial<T>;
 
   constructor(protected module: IModule, protected importName: string, replaceWith?: Partial<T>) {

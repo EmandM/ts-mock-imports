@@ -7,7 +7,7 @@ const mockManager = ImportMock.mockClass(testClass, 'TestClass');
 const staticManager = ImportMock.mockStaticClass(staticTestClass, 'StaticTestClass');
 const otherManager = ImportMock.mockOther(otherModule, 'testConst', 'bar');
 
-let manager: Manager;
+let manager: Manager<any>;
 let mockManagerTest: MockManager<any>;
 
 // $ExpectType MockManager<TestClass>
