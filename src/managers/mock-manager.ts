@@ -7,8 +7,7 @@ export interface IMockOptions {
   returns?: any;
 }
 
-export class MockManager<T> extends Manager {
-  protected original!: IConstruct<T>;
+export class MockManager<T> extends Manager<IConstruct<T>> {
   protected stubClass!: IConstruct<T>;
 
   constructor(protected module: IModule, protected importName: string) {
